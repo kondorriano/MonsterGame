@@ -21,6 +21,7 @@ public class Volatile : EffectData
         this.num = status.num;
         this.affectsFainted = status.affectsFainted;
         this.desc = status.desc;
+        this.duration = status.duration;
         this.drain = status.drain;
         this.effect = status.effect;
         this.effectType = status.effectType;
@@ -37,6 +38,7 @@ public class Volatile : EffectData
         this.onModifyWeightPriority = status.onModifyWeightPriority;
 
         this.onResidualOrder = status.onResidualOrder;
+        this.recoil = status.recoil;
         this.secondaries = status.secondaries;
         this.shortDesc = status.shortDesc;
 
