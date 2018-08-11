@@ -89,9 +89,49 @@ public class Battle {
         //Log in an ui new data
     }
 
-    void Damage(int damage, Pokemon target, Pokemon pokemon, ActiveMove move)
+    public int Damage(int damage, TargetableElement target = null, BattleElement source = null, EffectData effect = null, bool instafaint = false)
     {
+        if(currentEvent != null)
+        {
+            if (target == null) target = currentEvent.target;
+            if (source == null) source = currentEvent.source;
+            if (effect == null) effect = effectInEvent;
+        }
+        if(target == null || !(target.sourceElement is PokemonCharacter)) return 0;
+        Pokemon poke = ((PokemonCharacter)target.sourceElement).pokemonData;
+        if (poke.hp <= 0) return 0;
+        if (damage <= 0) return 0;
 
+        //// Struggle recoil is not affected by effects
+        if (effect.id != "struggle-recoil")
+        {
+            if(effect.effectType == Globals.EffectTypes.Weather && poke.HasStatusImmunity(effect.id))
+            {
+                return 0;
+            }
+            RelayVar relayVar = new RelayVar(integerValue: damage);
+            damage = RunEvent("Damage", target, source, effect, relayVar).integerValue;
+            if (damage <= 0) return 0;
+        }
+        damage = poke.Damage(damage, source, effect);
+        if(source is PokemonCharacter && effect != null && effect.effectType == Globals.EffectTypes.Move)
+        {
+            ((PokemonCharacter)source).pokemonData.lastDamage = damage;
+        }
+
+        if(effect != null && effect.drain != null && source is PokemonCharacter)
+        {
+            //this.heal(Math.ceil(damage * effect.drain[0] / effect.drain[1]), source, target, 'drain');
+            Heal(Mathf.CeilToInt(damage * effect.drain[0] / effect.drain[1]), target, source, GetPureEffect("drain"));
+        }
+
+        if(!instafaint && poke.hp > 0)
+        {
+            RelayVar relayVar = new RelayVar(integerValue: damage);
+            damage = RunEvent("AfterDamage", target, source, effect, relayVar).integerValue;
+        }
+
+        return damage;
     }
 
     //I think it will be used for direct damages
@@ -324,11 +364,6 @@ public class Battle {
         return Mathf.FloorToInt(baseDamage);
     }
 
-    public void Damage(int damage, Pokemon target = null, Pokemon source = null, EffectData effect = null, bool instafaint = false)
-    {
-        Debug.Log("HEY, DIS IS GONNA HURT");
-    }
-
     public EffectData GetPureEffect(string effectId)
     {
         string name = effectId;
@@ -359,7 +394,6 @@ public class Battle {
         }
         //Get effect from format
         //Create "recoil" effect
-        //Create "drain" effect
         else
         {
             effect = new EffectData(name: name);

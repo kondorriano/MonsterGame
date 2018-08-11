@@ -30,7 +30,7 @@ public class LearnSets {
      */
 
     //Done just with the moves, not using the movesource. Yet.
-    public static Dictionary<string, string[]> BattleLearnsets = new Dictionary<string, string[]>
+    public readonly static Dictionary<string, string[]> BattleLearnsets = new Dictionary<string, string[]>
     {
         {"bulbasaur",
             new string[]{"amnesia","attract", "bide", "bind", "block", "bodyslam", "bulletseed", "captivate", "celebrate", "charm", "confide", "curse", "cut", "defensecurl", "doubleedge", "doubleteam",

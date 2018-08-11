@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Abilities {
 
-    public static Dictionary<string, AbilityData> BattleAbilities = new Dictionary<string, AbilityData>
+    public readonly static Dictionary<string, AbilityData> BattleAbilities = new Dictionary<string, AbilityData>
     {
         {"overgrow", new AbilityData(
             desc: "When this Pokemon has 1/3 or less of its maximum HP, rounded down, its attacking stat is multiplied by 1.5 while using a Grass-type attack.",

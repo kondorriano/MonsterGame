@@ -494,9 +494,18 @@ public class Pokemon {
         return totalTypeMod;
     }
 
-    public void Damage(int damage)
+    public int Damage(int damage, BattleElement source = null, EffectData effect = null)
     {
-        battle.Damage(damage, target: this);
+        if (this.hp <= 0) return 0;
+        damage = Mathf.Max(1, Mathf.FloorToInt(damage));
+        this.hp -= damage;
+        if(this.hp <= 0)
+        {
+            damage += this.hp;
+            Faint(source, effect);
+        }
+        return damage;
+
     }
 
     public int CalculateStat(string statName, int boost = 0, int modifier = 1)
@@ -649,7 +658,7 @@ public class Pokemon {
 
 
 
-    bool HasStatusImmunity(string type)
+    public bool HasStatusImmunity(string type)
     {
         if (fainted) return true;
         if (type == "") return false;

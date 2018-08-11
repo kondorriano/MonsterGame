@@ -28,7 +28,7 @@ sound: Has no effect on Pokemon with the Ability Soundproof.
 */
 
 public class Moves {
-    public static Dictionary<string, MoveData> BattleMovedex = new Dictionary<string, MoveData>
+    public readonly static Dictionary<string, MoveData> BattleMovedex = new Dictionary<string, MoveData>
     {
         {"10000000voltthunderbolt", new MoveData(
             num: 719,
@@ -168,6 +168,69 @@ public class Moves {
             type: Globals.Type.Water,
             zMovePower: 120,
             contestType: Globals.ContestTypes.Beautiful
+        )},
+        {"aerialace", new MoveData(
+            num: 332,
+            accuracy: -1,
+            basePower: 60,
+            category: Globals.MoveCategory.Physical,
+            desc: "This move does not check accuracy.",
+            shortDesc: "This move does not check accuracy.",
+            id: "aerialace",
+            isViable: true,
+            name: "Aerial Ace",
+            pp: 20,
+            priority: 0,
+            flags: Globals.MoveFlags.Protect | Globals.MoveFlags.Mirror | Globals.MoveFlags.Contact | Globals.MoveFlags.Distance,
+            type: Globals.Type.Flying,
+            zMovePower: 120,
+            contestType: Globals.ContestTypes.Cool
+        )},
+        {"bite", new MoveData(
+            num: 44,
+            accuracy: 100,
+            basePower: 60,
+            category: Globals.MoveCategory.Physical,
+            desc: "Has a 30% chance to flinch the target.",
+            shortDesc: "30% chance to flinch the target.",
+            id: "bite",
+            name: "Bite",
+            pp: 25,
+            priority: 0,
+            flags: Globals.MoveFlags.Bite | Globals.MoveFlags.Contact | Globals.MoveFlags.Protect | Globals.MoveFlags.Mirror,
+            secondaries: new Globals.SecondaryEffect[]
+            {
+                new Globals.SecondaryEffect(
+                chance: 30,
+                volatileStatus: "flinch"
+                )
+            },
+            type: Globals.Type.Dark,
+            zMovePower: 120,
+            contestType: Globals.ContestTypes.Tough
+        )},
+        {"rocksmash", new MoveData(
+            num: 249,
+            accuracy: 100,
+            basePower: 40,
+            category: Globals.MoveCategory.Physical,
+            desc: "Has a 50% chance to lower the target's Defense by 1 stage.",
+            shortDesc: "50% chance to lower the target's Defense by 1.",
+            id: "rocksmash",
+            name: "Rock Smash",
+            pp: 15,
+            priority: 0,
+            flags: Globals.MoveFlags.Contact | Globals.MoveFlags.Protect | Globals.MoveFlags.Mirror,
+            secondaries: new Globals.SecondaryEffect[]
+            {
+                new Globals.SecondaryEffect(
+                chance: 50,
+                boosts: new Globals.BoostsTable(def: -1)
+                )
+            },
+            type: Globals.Type.Fighting,
+            zMovePower: 100,
+            contestType: Globals.ContestTypes.Tough
         )},
         {"tackle", new MoveData(
             num: 33,

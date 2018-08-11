@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pokedex {
 
-    public static Dictionary<string, TemplateData> BattlePokedex = new Dictionary<string, TemplateData>
+    public readonly static Dictionary<string, TemplateData> BattlePokedex = new Dictionary<string, TemplateData>
     {
         {"bulbasaur", new TemplateData(
             num: 1,
