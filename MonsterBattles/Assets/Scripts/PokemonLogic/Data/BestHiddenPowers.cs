@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BestHiddenPowers {
 
-    public static Dictionary<string, Globals.StatsTable> HiddenPowers = new Dictionary<string, Globals.StatsTable>
+    public readonly static Dictionary<string, Globals.StatsTable> HiddenPowers = new Dictionary<string, Globals.StatsTable>
     {
         {"Bug",         new Globals.StatsTable(hp: 31, atk: 31, def: 31, spe: 30, spa: 31, spd: 30)},
         {"Dark",        new Globals.StatsTable(hp: 31, atk: 31, def: 31, spe: 31, spa: 31, spd: 31)},

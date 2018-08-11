@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ZBasicMoveTable {
 
-    public static Dictionary<string, string> ZBasicMoves = new Dictionary<string, string>
+    public readonly static Dictionary<string, string> ZBasicMoves = new Dictionary<string, string>
     {
         {"Poison", "Acid Downpour"},
         {"Fighting", "All-Out Pummeling"},

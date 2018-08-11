@@ -8,7 +8,7 @@ public class TypeChart {
     //1 = effective
     //2 = not effective
     //3 = inmune
-    public static Dictionary<string, Globals.TypeData> BattleTypeChart = new Dictionary<string, Globals.TypeData>
+    public readonly static Dictionary<string, Globals.TypeData> BattleTypeChart = new Dictionary<string, Globals.TypeData>
     {
         {"Bug", new Globals.TypeData(new Dictionary<string, int>
             {

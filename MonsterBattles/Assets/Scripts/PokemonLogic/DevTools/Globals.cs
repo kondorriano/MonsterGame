@@ -165,6 +165,8 @@ public class Globals {
         Status,
         Rule,
         ValidatorRule,
+        Drain,
+        Recoil,
         Null
     }
 
@@ -307,8 +309,8 @@ public class Globals {
     {
         /*
         Ability ability;
-        SparseBoostsTable boosts;
         */
+        BoostsTable boosts;
         public int chance;
         /*
         bool dustproof;
@@ -321,8 +323,9 @@ public class Globals {
         onHit?: EffectData["onHit"] 
         */
 
-        public SecondaryEffect(int chance = 0, string status ="", string volatileStatus = "")
+        public SecondaryEffect(BoostsTable boosts = null, int chance = 0, string status ="", string volatileStatus = "")
         {
+            this.boosts = boosts;
             this.chance = chance;
             this.status = status;
             this.volatileStatus = volatileStatus;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Items {
-    public static Dictionary<string, ItemData> BattleItems = new Dictionary<string, ItemData>
+    public readonly static Dictionary<string, ItemData> BattleItems = new Dictionary<string, ItemData>
     {
         {"abomasite", new ItemData(
             id: "abomasite",

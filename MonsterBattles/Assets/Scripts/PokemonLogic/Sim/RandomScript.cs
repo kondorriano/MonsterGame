@@ -21,4 +21,9 @@ public static class RandomScript {
     {
         return Mathf.FloorToInt(baseDamage * (100 - Random.Range(0,16)) / 100f);
     }
+
+    public static int RandomBetween(int min, int max)
+    {
+        return Random.Range(min, max);
+    }
 }

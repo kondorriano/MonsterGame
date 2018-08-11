@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Natures {
-    public static Dictionary<string, Globals.Nature> BattleNatures = new Dictionary<string, Globals.Nature>
+    public readonly static Dictionary<string, Globals.Nature> BattleNatures = new Dictionary<string, Globals.Nature>
     {
         {"adamant", new Globals.Nature(name: "Adamant", plus: "atk", minus: "spa")},
         {"bashful", new Globals.Nature(name: "Bashful")},
