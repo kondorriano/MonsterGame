@@ -29,15 +29,20 @@ public class PokemonCharacter : BattleElement {
 
     //Input
     float forwardInput, rightInput;
+    float jumpPressed = 0.0f;
     public float joystickDetection = .1f;
+
     //Physics
     Vector3 velocity = Vector3.zero;
     Vector2 velPlane = Vector2.zero;
-    float velGravity = 0;
+    float velVertical = 0;
     public float velMin = 4;
     public float velMax = 30;
     public const float velMonsterMax = 10000;
-    public const float velGravityConst = 9.0f;
+    public const float velGravityConst = 25.0f;
+
+    public const float velJumpBase = 10;
+    public const float jumpPressTime = 0.1f;
 
     public void Init(Battle b, PokemonSet set, Battle.Team t)
     {
@@ -99,6 +104,11 @@ public class PokemonCharacter : BattleElement {
         {
             camPokemon.ToggleTargeted();
         }
+
+        if (Input.GetButtonDown(string.Format("R{0}", ControllerId)))
+        {
+            jumpPressed = jumpPressTime;
+        }
     }
 
     void Run()
@@ -119,17 +129,27 @@ public class PokemonCharacter : BattleElement {
             //transform.LookAt(transform.position + dir.normalized);
             transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.LookRotation(new Vector3(dir.x, 0, dir.y), Vector3.up), 0.15f);
 
-            float speedFactor = (pokemonData.speed / velMonsterMax);
-            speedFactor = 1.0f - speedFactor;
-            speedFactor = 1.0f - (speedFactor * speedFactor);
-
-            float currVel = velMin + speedFactor * velMax;
-
-            velPlane += dir * currVel * dir.magnitude * Time.fixedDeltaTime * 5;
-            
-            if (velPlane.magnitude > currVel)
+            if (myChar.isGrounded)
             {
-                velPlane = velPlane.normalized * currVel;
+                float speedFactor = (pokemonData.speed / velMonsterMax);
+                speedFactor = 1.0f - speedFactor;
+                speedFactor = 1.0f - (speedFactor * speedFactor);
+
+                float currVel = velMin + speedFactor * velMax;
+
+                if (jumpPressed > 0.0f)
+                {
+                    velPlane += dir * currVel * dir.magnitude * Time.fixedDeltaTime * 50;
+                }
+                else
+                {
+                    velPlane += dir * currVel * dir.magnitude * Time.fixedDeltaTime * 5;
+                }
+
+                if (velPlane.magnitude > currVel)
+                {
+                    velPlane = velPlane.normalized * currVel;
+                }
             }
         }
         else
@@ -146,18 +166,22 @@ public class PokemonCharacter : BattleElement {
 
         if (myChar.isGrounded)
         {
-            velGravity = 0;
+            velVertical = 0;
+
+            if (jumpPressed > 0.0f)
+            {
+                velVertical = velJumpBase;
+                jumpPressed = 0.0f;
+            }
         }
         else
         {
-            velGravity -= velGravityConst;
+            velVertical -= velGravityConst * Time.fixedDeltaTime;
         }
 
-        velocity = new Vector3(velPlane.x, velGravity, velPlane.y);
+        jumpPressed -= Time.fixedDeltaTime;
+        velocity = new Vector3(velPlane.x, velVertical, velPlane.y);
     }
-
-
-
 
     //Check Input of actions here (move, megaevo, Switch pokemon, use item FROM BAG, ultraburst? zmove?)
     void RunAction()
