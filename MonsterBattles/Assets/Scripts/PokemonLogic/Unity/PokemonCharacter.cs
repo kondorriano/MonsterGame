@@ -5,6 +5,7 @@ using UnityEngine;
 public interface PokemonCamera
 {
     void ToggleTargeted();
+    void SetCharacterHeight(float height);
 }
 
 [RequireComponent(typeof(TargetableElement))]
@@ -32,9 +33,6 @@ public class PokemonCharacter : BattleElement {
     Vector3 velocity = Vector3.zero;
     public float forwardVel = 12;
 
-
-
-
     public void Init(Battle b, PokemonSet set, Battle.Team t)
     {
         pokemonData = new Pokemon(b, set, t, this);
@@ -43,24 +41,38 @@ public class PokemonCharacter : BattleElement {
         this.id = pokemonData.speciesId;
     }
 
-
-
     private void Start()
     {
         myChar = GetComponent<CharacterController>();
 
-        if (camTrans == null)
-            camTrans = Camera.main.transform;
-    }
+        CapsuleCollider myCol = GetComponent<CapsuleCollider>();
+        if (myCol)
+        {
+            myChar.radius = myCol.radius;
+            myChar.height = myCol.height;
+            myChar.center = myCol.center;
 
+            Destroy(myCol);
+        }
+
+        if (camPokemon != null)
+        {
+            camPokemon.SetCharacterHeight(Mathf.Max(myChar.radius, myChar.height) * 3);
+        }
+
+        if (camTrans == null)
+        {
+            camTrans = Camera.main.transform;
+        }
+    }
 
     private void Update()
     {
         GetInput();
     }
 
-    // Update is called once per frame
-    void FixedUpdate () {
+    void FixedUpdate ()
+    {
         Run();
 
         myChar.Move((velocity /*+ upVelocity*/) * Time.fixedDeltaTime);
@@ -85,8 +97,10 @@ public class PokemonCharacter : BattleElement {
         Vector3 dir = camTrans.right * rightInput + frontDir * forwardInput;
         if (dir.magnitude > joystickDetection)
         {
-            transform.LookAt(transform.position + dir.normalized);
-            velocity = transform.forward * forwardVel * dir.magnitude;
+            //transform.LookAt(transform.position + dir.normalized);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.LookRotation(dir, Vector3.up), 0.2f);
+            velocity = dir * forwardVel * dir.magnitude;
+            velocity.y = 0;
         }
         else velocity = Vector3.zero;
     }

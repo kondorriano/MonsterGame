@@ -9,10 +9,10 @@ public class CameraController : MonoBehaviour, PokemonCamera
     public bool targeted = false;
 
     public float distance = 5f;
-    public float heightOverCharacter = 2f;
-    public float lookOverCharacter = 1.5f;
-    public float lookSmooth = 10f;
-    public float followSmooth = 8f;
+    public float heightOverCharacter = 0.4f;
+    public float lookOverCharacter = 0.3f;
+    public float lookSmooth = 5f;
+    public float followSmooth = 40f;
     public float priorityTarget = 0.75f;
 
     private Vector3 lookPos;
@@ -29,12 +29,12 @@ public class CameraController : MonoBehaviour, PokemonCamera
 
         if (!targeted)
         {
-            lookPos = character.position + Vector3.up * lookOverCharacter;
+            lookPos = character.position + Vector3.up * lookOverCharacter * distance;
             //dir = transform.position - lookPos;
         }
         else
         {
-            lookPos = character.position + (target.position - character.position) * priorityTarget + Vector3.up * lookOverCharacter;
+            lookPos = character.position + (target.position - character.position) * priorityTarget + Vector3.up * lookOverCharacter * distance;
             //Vector3 dir2 = transform.position - lookPos;
             //dir2.y = 0;
             //dir2.Normalize();
@@ -44,15 +44,20 @@ public class CameraController : MonoBehaviour, PokemonCamera
         dir = transform.position - lookPos;
         dir.y = 0;
         dir.Normalize();
-        Vector3 desiredPosition = character.position + dir * distance + Vector3.up * heightOverCharacter;
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, followSmooth * Time.fixedDeltaTime);
+        Vector3 desiredPosition = character.position + dir * distance + Vector3.up * heightOverCharacter * distance;
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, followSmooth / distance * Time.fixedDeltaTime);
 
         Quaternion desiredRotation = Quaternion.LookRotation(lookPos - transform.position);
-        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, lookSmooth * Time.fixedDeltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, distance * lookSmooth * Time.fixedDeltaTime);
 	}
 
     public void ToggleTargeted()
     {
         targeted = !targeted;
+    }
+
+    public void SetCharacterHeight(float dist)
+    {
+        distance = dist;
     }
 }
