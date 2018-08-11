@@ -508,8 +508,9 @@ public class Battle {
         public EffectData effectValue;
         public Globals.BoostsTable boosts;
         public Globals.Type[] types;
+        public Globals.SecondaryEffect[] secondaries;
 
-        public RelayVar(bool booleanValue = false, int integerValue = -1, string stringValue = "", EffectData effectValue = null, Globals.BoostsTable boosts = null, Globals.Type[] types = null)
+        public RelayVar(bool booleanValue = false, int integerValue = -1, string stringValue = "", EffectData effectValue = null, Globals.BoostsTable boosts = null, Globals.Type[] types = null, Globals.SecondaryEffect[] secondaries = null)
         {
             endEventHere = false;
             this.booleanValue = booleanValue;
@@ -518,6 +519,7 @@ public class Battle {
             this.effectValue = effectValue;
             this.boosts = boosts;
             this.types = types;
+            this.secondaries = secondaries;
         }
 
         public void EndEventHere()
