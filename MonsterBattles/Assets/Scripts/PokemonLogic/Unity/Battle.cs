@@ -18,6 +18,24 @@ public class Battle {
         public PokemonCharacter[] pokemons;
         public ActiveMove[] teamMoves; //should be subset of battle.activeMoves
         public bool zMoveUsed = false;
+
+        public Team(PokemonSet[] set)
+        {
+            pokemonsSets = set;
+        }
+
+        public void InitPokemons(Battle b)
+        {
+            pokemons = new PokemonCharacter[pokemonsSets.Length];
+            for(int i = 0; i < pokemonsSets.Length; ++i)
+            {
+                GameObject poke = new GameObject();
+                PokemonCharacter pC = poke.AddComponent<PokemonCharacter>();
+                pC.Init(b, pokemonsSets[i], this, i);
+                pokemons[i] = pC;
+            }
+
+        }
     }
 
     float turnTime = 5;
@@ -51,6 +69,10 @@ public class Battle {
         this.targetInEvent = null;
 
         //Generate all pokemon characters
+        for(int i = 0; i < teams.Length; ++i)
+        {
+            teams[i].InitPokemons(this);
+        }
         //Set active weather
         //Set active terrain
     }

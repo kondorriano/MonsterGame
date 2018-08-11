@@ -21,6 +21,21 @@ public class Pokedex {
             evos: new string[]{"ivysaur"},
             eggGroups: Globals.EggGroups.Monster | Globals.EggGroups.Grass
         )},
+        {"meowth", new TemplateData(
+            num: 52,
+            species: "Meowth",
+            types: new Globals.Type[] {Globals.Type.Normal},
+            baseStats: new Globals.StatsTable(hp: 40, atk: 45, def: 35, spa: 40, spd: 40, spe: 90),
+            ability0: "Pickup",
+            ability1: "Technician",
+            abilityH: "Unnerve",
+            heightm: 0.4f,
+            weightkg: 4.2f,
+            color: "Yellow",
+            evos: new string[] {"persian" },
+            eggGroups: Globals.EggGroups.Field,
+            otherFormes: new string[] {"meowthalola" }          
+        )},
         {"rayquaza", new TemplateData(
             num: 384,
             species: "Rayquaza",

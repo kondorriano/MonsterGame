@@ -13,6 +13,13 @@ public class Callbacks {
         return relayVar;
     }
 
+    //onBasePower
+    public static Battle.RelayVar TechnicianOnBasePower(Battle battle, Battle.RelayVar relayVar, TargetableElement target = null, BattleElement source = null, EffectData effect = null)
+    {
+        //battle.modify(relayVar.integerValue, 1.5);
+        return relayVar;
+    }
+
     //OnModifyAtk
     public static Battle.RelayVar HustleOnModifyAtk(Battle battle, Battle.RelayVar relayVar, TargetableElement target = null, BattleElement source = null, EffectData effect = null)
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TargetableElement))]
+[RequireComponent(typeof(CharacterController))]
 public class PokemonCharacter : BattleElement {
 
     //Script that takes care of the movement and the input of the pokemon in the game
@@ -31,6 +32,7 @@ public class PokemonCharacter : BattleElement {
         pokemonData = new Pokemon(b, set, t, this);
         targetScript = GetComponent<TargetableElement>();
         targetScript.sourceElement = this;
+        this.id = pokemonData.speciesId;
     }
 
 
@@ -38,6 +40,7 @@ public class PokemonCharacter : BattleElement {
     private void Start()
     {
         myChar = GetComponent<CharacterController>();
+        camTrans = Camera.main.transform;
     }
 
 

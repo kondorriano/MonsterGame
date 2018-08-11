@@ -118,7 +118,7 @@ public class TestingEverything : MonoBehaviour {
                 nature: Natures.BattleNatures["adamant"],
                 ppBoosts: new int[] {3,1,0,2}
             );
-            Pokemon testPoke = new Pokemon(battle, set, new Battle.Team(), null);
+            Pokemon testPoke = new Pokemon(battle, set, new Battle.Team(new PokemonSet[] { set}), null);
             testPoke.LogPokemon();
         }
 
@@ -160,9 +160,8 @@ public class TestingEverything : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Battle b = new Battle();
-            Battle.Team t1 = new Battle.Team();
             PokemonSet set1 = new PokemonSet(speciesId: "bulbasaur", name: "Tentomon", level: 50, gender: Globals.GenderName.F, abilityId: "testingrunevent", itemId: "testingrunevent", movesId: new string[]{ "testingrunevent" });
-            t1.pokemonsSets = new PokemonSet[] { set1 };
+            Battle.Team t1 = new Battle.Team(new PokemonSet[] { set1 });
             GameObject go1 = new GameObject();
             PokemonCharacter pc1 = go1.AddComponent<PokemonCharacter>();
             pc1.Init(b, set1, t1);
@@ -170,9 +169,8 @@ public class TestingEverything : MonoBehaviour {
             t1.pokemons = new PokemonCharacter[] {pc1 };
             t1.teamMoves = new ActiveMove[0];
 
-            Battle.Team t2 = new Battle.Team();
             PokemonSet set2 = new PokemonSet(speciesId: "bulbasaur", name: "Tentomon", level: 50, gender: Globals.GenderName.F, abilityId: "testingrunevent", itemId: "testingrunevent", movesId: new string[] { "testingrunevent" });
-            t2.pokemonsSets = new PokemonSet[] { set2 };
+            Battle.Team t2 = new Battle.Team(new PokemonSet[] { set2 });
             GameObject go2 = new GameObject();
             PokemonCharacter pc2 = go2.AddComponent<PokemonCharacter>();
             pc2.Init(b, set2, t2);
