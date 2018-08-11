@@ -310,20 +310,20 @@ public class Globals {
         /*
         Ability ability;
         */
-        BoostsTable boosts;
+        public BoostsTable boosts;
         public int chance;
         /*
         bool dustproof;
         SelfEffect self;
         */
         public string status;
-        string volatileStatus;
+        public string volatileStatus;
         /*
         onAfterHit?: EffectData["onAfterHit"]
         onHit?: EffectData["onHit"] 
         */
 
-        public SecondaryEffect(BoostsTable boosts = null, int chance = 0, string status ="", string volatileStatus = "")
+        public SecondaryEffect(BoostsTable boosts = null, int chance = -1, string status ="", string volatileStatus = "")
         {
             this.boosts = boosts;
             this.chance = chance;
@@ -333,7 +333,16 @@ public class Globals {
 
         public SecondaryEffect DeepCopy()
         {
-            return (SecondaryEffect)this.MemberwiseClone();
+            SecondaryEffect other = (SecondaryEffect)this.MemberwiseClone();
+            other.boosts = this.boosts.ShallowCopy();
+
+            return other;
+        }
+
+        public MoveData SecondaryToMove()
+        {
+            MoveData effect = new MoveData(boosts: this.boosts, status: this.status, volatileStatus: this.volatileStatus );
+            return effect;
         }
     }
 

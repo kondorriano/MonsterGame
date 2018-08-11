@@ -180,7 +180,7 @@ public class ActiveMove : BattleElement
         //Happens after crit calculation
         relayVar = new Battle.RelayVar(integerValue: basePower);
         relayVar = battle.RunEvent("BasePower", source.targetScript, target.myPokemon, moveData, relayVar, true);
-        if (relayVar.getEndEvent() && relayVar.integerValue != -1) return -1;
+        if (relayVar.getEndEvent() && relayVar.integerValue != -1) return 0;
         basePower = Mathf.Max(1, relayVar.integerValue);
 
         //Starting?
@@ -487,12 +487,12 @@ public class ActiveMove : BattleElement
 
 
     //Called when hit a target
-    bool TryMoveHit(TargetableElement target)
+    int TryMoveHit(TargetableElement target)
     {
         activeData.zBrokeProtect = false;
         bool hitResult = true;
 
-        if (battle.SingleEvent("Try", activeData.moveData, null, source.targetScript, target.sourceElement, activeData.moveData).getEndEvent()) return false;
+        if (battle.SingleEvent("Try", activeData.moveData, null, source.targetScript, target.sourceElement, activeData.moveData).getEndEvent()) return -1;
 
         //Affecting directly to a side o to the field
         if(target.teamTarget != null || target.battleTarget != null)
@@ -505,35 +505,35 @@ public class ActiveMove : BattleElement
                 hitResult = !battle.RunEvent("TryHitSide", target, source, activeData.moveData).getEndEvent();
             }
 
-            if (!hitResult) return false;
+            if (!hitResult) return -1;
 
-            return MoveHit(target) != 0;
+            return MoveHit(target);
         }
 
         //Immunity
         hitResult = !battle.RunEvent("TryImmunity", target, source, activeData.moveData).getEndEvent();
-        if (!hitResult) return false;
+        if (!hitResult) return -1;
 
         if (activeData.moveData.ignoreImmunity == "")
             activeData.moveData.ignoreImmunity = (activeData.moveData.category == Globals.MoveCategory.Status) ? "All" : "";
 
         //TryHit
         hitResult = !battle.RunEvent("TryHit", target, source, activeData.moveData).getEndEvent();
-        if (!hitResult) return false;
+        if (!hitResult) return -1;
 
         //Immunity
         if (((PokemonCharacter)target.sourceElement).pokemonData.HasImmunity(activeData.moveType) &&
-            activeData.moveData.ignoreImmunity == "") return false;
+            activeData.moveData.ignoreImmunity == "") return -1;
 
         //Powder Immunity
         if (target.sourceElement is PokemonCharacter && (activeData.moveData.flags & Globals.MoveFlags.Powder) != 0 &&
-            target != source.targetScript && TypeChart.HasImmunity("powder", ((PokemonCharacter)target.sourceElement).pokemonData.types)) return false;
+            target != source.targetScript && TypeChart.HasImmunity("powder", ((PokemonCharacter)target.sourceElement).pokemonData.types)) return -1;
 
         //Prankster Immunity
         if(activeData.pranksterBoosted && target.sourceElement is PokemonCharacter && source.pokemonData.HasAbilityActive(new string[] {"prankster"}) 
             && ((PokemonCharacter)target.sourceElement).pokemonData.team != source.pokemonData.team 
             && TypeChart.HasImmunity("prankster", ((PokemonCharacter)target.sourceElement).pokemonData.types)
-            ) return false;
+            ) return -1;
 
         //Now it surely hits!!!
 
@@ -555,27 +555,37 @@ public class ActiveMove : BattleElement
                 ((PokemonCharacter)target.sourceElement).pokemonData.SetBoosts(boosts);
             }
         }
-        //BADASS FUNCTION with MOVEHIT
-        //if multihit
-        //else
 
-        //recoil && totaldamage
+        //If MultiHit (here?)
 
-        //strugglerecoil
+        //Else
+        int damage = MoveHit(target);
+        activeData.totalDamage += damage;
 
         //set to target gotAttacked
+        if ((target.sourceElement is PokemonCharacter) && source.pokemonData != ((PokemonCharacter)target.sourceElement).pokemonData)
+            ((PokemonCharacter)target.sourceElement).pokemonData.GotAttacked(activeData.moveId, damage, source);
 
         //return if no damage
+        if (damage < 0) return damage;
 
         //eachevent update
-
+        battle.EventForActives("Update");
+        
         //Secondary events
+        if((target.sourceElement is PokemonCharacter) && !activeData.negateSecondary && !(activeData.hasSheerForce /*&& source.pokemonData.HasAbilityActive(new string[] { "sheerforce" })*/))
+        {
+            battle.SingleEvent("AfterMoveSecondary", activeData.moveData, null, target, source, activeData.moveData);
+            battle.RunEvent("AfterMoveSecondary", target, source, activeData.moveData);
+        }
 
-        return false;
+        return damage;
     }
 
-    int MoveHit(TargetableElement target)
+    int MoveHit(TargetableElement target, EffectData moveData = null, bool isSecondary = false, bool isSelf = false)
     {
+        int damage = -1;
+        if (moveData == null) moveData = activeData.moveData;
         /*
         TryHitField (singleevent)
         TryHitSide (singleevent)
@@ -583,14 +593,26 @@ public class ActiveMove : BattleElement
         TryPrimaryHit (runevent)
         */
 
-        /*
-         if target
-            damage = getDamage
-            if no damage
-                return
+        if(target.sourceElement is PokemonCharacter)
+        {
+            int didSomething = -1;
+            Pokemon pokeTarget = ((PokemonCharacter)target.sourceElement).pokemonData;
+            damage = GetDamage(pokeTarget);
+            /*
             selfdestruct stuff
-            if damage
-                set damage
+            */
+            if(damage >= 0 && !pokeTarget.fainted)
+            {
+                if(activeData.moveData.noFaint && damage >= pokeTarget.hp)
+                {
+                    damage = pokeTarget.hp - 1;
+                }
+                damage = battle.Damage(damage, target, source, activeData.moveData);
+                //Damage interrumped
+                if (damage <= 0) return -1;
+                didSomething = 1;
+            }
+            /*
             boosts stuff
             heal stuff
             status stuff
@@ -609,15 +631,94 @@ public class ActiveMove : BattleElement
             Hit (singleevent)
             Hit (runevent)
             AfterHit (singleevent)
+            */
+            //if the move didnt do someting return false
+            if (didSomething < 0) didSomething = 1;
 
-            if the move didnt do someting return false
-         */
+            if(didSomething == 0 && moveData.self == null &&
+                (moveData is MoveData) && ((MoveData)moveData).selfdestruct == "")
+            {
+                return -1;
+            }
 
-        //Move has self
+
+        }
+
+
+        //Move has self && !selfdropped
         //move has secondaries
+        if(moveData.secondaries != null)
+        {
+
+            Globals.SecondaryEffect[] secondaries = new Globals.SecondaryEffect[moveData.secondaries.Length];
+            for(int i = 0; i < secondaries.Length; ++i)
+            {
+                secondaries[i] = moveData.secondaries[i].DeepCopy();
+            }
+
+            Battle.RelayVar relayVar = new Battle.RelayVar(secondaries: secondaries);
+            secondaries = battle.RunEvent("ModifySecondaries", target, source, activeData.moveData, relayVar).secondaries;
+
+            foreach(Globals.SecondaryEffect secondary in secondaries)
+            {
+                int secondaryRoll = RandomScript.RandomBetween(0, 100);
+                if(secondary.chance < 0 || secondaryRoll < secondary.chance)
+                {
+                    TreatSecondaries(target, secondary, isSelf);
+                }
+            }
+        }
         //Dragout
         //SelfSwitch
-        return 1;
+        return damage;
+    }
+
+    void TreatSecondaries(TargetableElement target, Globals.SecondaryEffect secondary, bool isSelf)
+    {
+        bool hitResult = false;
+        if(target.sourceElement is PokemonCharacter)
+        {
+            int didSomething = -1;
+            Pokemon pokeTarget = ((PokemonCharacter)target.sourceElement).pokemonData;
+
+            //Secondary boosts
+            if(secondary.boosts != null && !pokeTarget.fainted)
+            {
+                hitResult = battle.Boost(secondary.boosts, target, source, secondary.SecondaryToMove());
+                didSomething = (hitResult) ? 1 : 0;
+            }
+
+            //Secondary status
+            if(secondary.status != "")
+            {
+                hitResult = pokeTarget.TrySetStatus(secondary.status, source, secondary.SecondaryToMove());
+                if (!hitResult) return;
+                if(didSomething < 1) didSomething = (hitResult) ? 1 : 0;
+            }
+
+            //Secondary volatile
+            if (secondary.volatileStatus != "")
+            {
+                //FLONCH
+                if (secondary.volatileStatus != "flinch")
+                {
+                    pokeTarget.StartCoolDown();
+                }
+                else
+                {
+                    hitResult = pokeTarget.AddVolatile(secondary.volatileStatus, source, secondary.SecondaryToMove());
+                    if (didSomething < 1) didSomething = (hitResult) ? 1 : 0;
+                }
+            }
+        }
+    }
+
+    void MoveEnd()
+    {
+
+        //recoil && totaldamage
+
+        //strugglerecoil
     }
 
 
