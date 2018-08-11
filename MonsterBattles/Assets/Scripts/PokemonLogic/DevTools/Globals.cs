@@ -308,18 +308,24 @@ public class Globals {
         /*
         Ability ability;
         SparseBoostsTable boosts;
-        int chance;
+        */
+        public int chance;
+        /*
         bool dustproof;
         SelfEffect self;
-        string status;
+        */
+        public string status;
         string volatileStatus;
+        /*
         onAfterHit?: EffectData["onAfterHit"]
         onHit?: EffectData["onHit"] 
         */
 
-        public SecondaryEffect()
+        public SecondaryEffect(int chance = 0, string status ="", string volatileStatus = "")
         {
-
+            this.chance = chance;
+            this.status = status;
+            this.volatileStatus = volatileStatus;
         }
 
         public SecondaryEffect DeepCopy()

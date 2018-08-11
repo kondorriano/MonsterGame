@@ -48,8 +48,8 @@ public class MoveData : EffectData
     ignorePositiveEvasion?: boolean
     isSelfHit?: boolean
     isFutureMove?: boolean
-    isViable?: boolean
     */
+    public bool isViable;
     public bool mindBlownRecoil;
     /*
     multiaccuracy?: boolean
@@ -103,7 +103,7 @@ public class MoveData : EffectData
         /*EffectData*/ int onResidualOrder = 0, int[] recoil = null, Globals.SecondaryEffect[] secondaries = null, Globals.SelfEffect self = null, string shortDesc = "",
         /*EffectType*/ Globals.EffectTypes effectType = Globals.EffectTypes.Move,
         /*Effect*/ bool exists = false,
-        /*MoveData*/ int accuracy = -1, int basePower = -1, Globals.MoveCategory category = Globals.MoveCategory.Null, Globals.MoveFlags flags = Globals.MoveFlags.None, int pp = 0, int priority = 0, Globals.Type type = Globals.Type.Null, bool breaksProtect = false, Globals.ContestTypes contestType = Globals.ContestTypes.Null, int critRatio = 1, int damage = -1, bool damageByLevel = false, Globals.MoveCategory defensiveCategory = Globals.MoveCategory.Null, bool ignoreAbility = false, bool ignoreAccuracy = false, bool ignoreDefensive = false, string ignoreImmunity = "", bool ignoreNegativeOffensive = false, bool ignoreOffensive = false, bool ignorePositiveDefensive = false, bool mindBlownRecoil = false, Globals.OHKO ohko = Globals.OHKO.Null, string selfdestruct = "", bool sideCondition = false, bool stealsBoosts = false, bool useTargetOffensive = false, bool useSourceDefensive = false, bool willCrit = false, int zMovePower = 0, string zMoveEffect = "", Globals.BoostsTable zMoveBoost = null)
+        /*MoveData*/ int accuracy = -1, int basePower = -1, Globals.MoveCategory category = Globals.MoveCategory.Null, Globals.MoveFlags flags = Globals.MoveFlags.None, int pp = 0, int priority = 0, Globals.Type type = Globals.Type.Null, bool breaksProtect = false, Globals.ContestTypes contestType = Globals.ContestTypes.Null, int critRatio = 1, int damage = -1, bool damageByLevel = false, Globals.MoveCategory defensiveCategory = Globals.MoveCategory.Null, bool ignoreAbility = false, bool ignoreAccuracy = false, bool ignoreDefensive = false, string ignoreImmunity = "", bool ignoreNegativeOffensive = false, bool ignoreOffensive = false, bool ignorePositiveDefensive = false, bool isViable = false, bool mindBlownRecoil = false, Globals.OHKO ohko = Globals.OHKO.Null, string selfdestruct = "", bool sideCondition = false, bool stealsBoosts = false, bool useTargetOffensive = false, bool useSourceDefensive = false, bool willCrit = false, int zMovePower = 0, string zMoveEffect = "", Globals.BoostsTable zMoveBoost = null)
     {
         /*EventMethods*/
         this.eventMethods = new EventMethods(basePowerCallback, beforeMoveCallback, beforeTurnCallback, damageCallback, durationCallback, onAfterDamage, onAfterMoveSecondary, onAfterEachBoost, onAfterHit, onAfterSetStatus, onAfterSwitchInSelf, onAfterUseItem, onAfterBoost, onAfterMoveSecondarySelf, onAfterMove, onAfterMoveSelf, onAllyTryAddVolatile, onAllyBasePower, onAllyModifyAtk, onAllyModifySpD, onAllyBoost, onAllySetStatus, onAllyTryHitSide, onAllyFaint, onAllyAfterUseItem, onAllyModifyMove, onAnyTryPrimaryHit, onAnyTryMove, onAnyDamage, onAnyBasePower, onAnySetWeather, onAnyModifyDamage, onAnyRedirectTarget, onAnyAccuracy, onAnyTryImmunity, onAnyFaint, onAnyModifyBoost, onAnyDragOut, onAnySetStatus, onAttract, onAccuracy, onFoeAccuracy, onBasePower, onTryImmunity, onBeforeMove, onBeforeSwitchIn, onBeforeSwitchOut, onBeforeTurn, onBoost, onChargeMove, onCheckShow, onCopy, onDamage, onDeductPP, onDisableMove, onDragOut, onEat, onEatItem, onEnd, onFaint, onFlinch, onFoeAfterDamage, onFoeBasePower, onFoeBeforeMove, onFoeDisableMove, onFoeMaybeTrapPokemon, onFoeModifyDef, onFoeRedirectTarget, onFoeSwitchOut, onFoeTrapPokemon, onFoeTryMove, onHit, onHitField, onHitSide, onImmunity, onLockMove, onLockMoveTarget, onModifyAccuracy, onFoeModifyAccuracy, onModifyAtk, onModifyBoost, onModifyCritRatio, onModifyDamage, onModifyDef, onModifyMove, onModifyPriority, onModifySecondaries, onModifySpA, onModifySpD, onModifySpe, onModifyWeight, onMoveAborted, onMoveFail, onNegateImmunity, onOverrideAction, onPrepareHit, onPreStart, onPrimal, onRedirectTarget, onResidual, onRestart, onSetAbility, onSetStatus, onSourceAccuracy, onSourceBasePower, onSourceFaint, onSourceHit, onSourceModifyAccuracy, onSourceModifyAtk, onSourceModifyDamage, onSourceModifySecondaries, onSourceModifySpA, onSourceTryHeal, onSourceTryPrimaryHit, onStallMove, onStart, onSwitchIn, onSwitchOut, onTakeItem, onTerrain, onTrapPokemon, onTry, onTryAddVolatile, onTryEatItem, onTryHeal, onTryHit, onTryHitField, onTryHitSide, onTryMove, onTryPrimaryHit, onType, onUpdate, onUseMoveMessage, onWeather, onWeatherModifyDamage, onAfterSubDamage, onEffectiveness, onFoeDeductPP);
@@ -160,6 +160,7 @@ public class MoveData : EffectData
         this.ignoreNegativeOffensive = ignoreNegativeOffensive;
         this.ignoreOffensive = ignoreOffensive;
         this.ignorePositiveDefensive = ignorePositiveDefensive;
+        this.isViable = isViable;
         this.mindBlownRecoil = mindBlownRecoil;
         this.ohko = ohko;
         this.selfdestruct = selfdestruct;

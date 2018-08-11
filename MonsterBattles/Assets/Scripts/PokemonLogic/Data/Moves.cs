@@ -63,6 +63,112 @@ public class Moves {
             zMovePower: 100,
             contestType: Globals.ContestTypes.Clever
         )},
+        { "sludgebomb", new MoveData(
+            num: 188,
+            accuracy: 100,
+            basePower: 90,
+            category: Globals.MoveCategory.Special,
+            desc: "Has a 30% chance to poison the target.",
+            shortDesc: "30% chance to poison the target.",
+            id: "sludgebomb",
+            isViable: true,
+            name: "Sludge Bomb",
+            pp: 10,
+            priority: 0,
+            flags: Globals.MoveFlags.Protect | Globals.MoveFlags.Mirror | Globals.MoveFlags.Bullet,
+            secondaries: new Globals.SecondaryEffect[]
+            {
+                new Globals.SecondaryEffect(
+                chance: 30,
+                status: "psn"
+                )
+            },
+            type: Globals.Type.Poison,
+            zMovePower: 175,
+            contestType: Globals.ContestTypes.Tough
+        )},
+        {"gigadrain", new MoveData(
+            num: 202,
+            accuracy: 100,
+            basePower: 75,
+            category: Globals.MoveCategory.Special,
+            desc: "The user recovers 1/2 the HP lost by the target, rounded half up. If Big Root is held by the user, the HP recovered is 1.3x normal, rounded half down.",
+            shortDesc: "User recovers 50% of the damage dealt.",
+            id: "gigadrain",
+            isViable: true,
+            name: "Giga Drain",
+            pp: 10,
+            priority: 0,
+            flags: Globals.MoveFlags.Protect | Globals.MoveFlags.Mirror | Globals.MoveFlags.Heal,
+            drain: new int[]{1, 2 },
+            type: Globals.Type.Grass,
+            zMovePower: 140,
+            contestType: Globals.ContestTypes.Clever
+        )},
+        {"bodyslam", new MoveData(
+            num: 34,
+            accuracy: 100,
+            basePower: 85,
+            category: Globals.MoveCategory.Physical,
+            desc: "Has a 30% chance to paralyze the target. Damage doubles and no accuracy check is done if the target has used Minimize while active.",
+            shortDesc: "30% chance to paralyze the target.",
+            id: "bodyslam",
+            isViable: true,
+            name: "Body Slam",
+            pp: 15,
+            priority: 0,
+            flags: Globals.MoveFlags.Protect | Globals.MoveFlags.Mirror | Globals.MoveFlags.Contact | Globals.MoveFlags.Nonsky,
+            secondaries: new Globals.SecondaryEffect[]
+            {
+                new Globals.SecondaryEffect(
+                chance: 30,
+                status: "par"
+                )
+            },
+            type: Globals.Type.Normal,
+            zMovePower: 160,
+            contestType: Globals.ContestTypes.Tough
+            
+        )},
+        {"payday", new MoveData(
+            num: 6,
+            accuracy: 100,
+            basePower: 40,
+            category: Globals.MoveCategory.Physical,
+            desc: "No additional effect.",
+            shortDesc: "Scatters coins.",
+            id: "payday",
+            name: "Pay Day",
+            pp: 20,
+            priority: 0,
+            flags: Globals.MoveFlags.Protect | Globals.MoveFlags.Mirror,
+            type: Globals.Type.Normal,
+            zMovePower: 100,
+            contestType: Globals.ContestTypes.Clever
+        )},
+        {"waterpulse", new MoveData(
+            num: 352,
+            accuracy: 100,
+            basePower: 60,
+            category: Globals.MoveCategory.Special,
+            desc: "Has a 20% chance to confuse the target.",
+            shortDesc: "20% chance to confuse the target.",
+            id: "waterpulse",
+            name: "Water Pulse",
+            pp: 20,
+            priority: 0,
+            flags: Globals.MoveFlags.Protect | Globals.MoveFlags.Mirror | Globals.MoveFlags.Pulse | Globals.MoveFlags.Distance,
+            secondaries: new Globals.SecondaryEffect[]
+            {
+                new Globals.SecondaryEffect(
+                chance: 30,
+                volatileStatus: "confusion"
+                )
+            },
+            type: Globals.Type.Water,
+            zMovePower: 120,
+            contestType: Globals.ContestTypes.Beautiful
+        )},
         {"tackle", new MoveData(
             num: 33,
             accuracy: 100,

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetableElement {
+public class TargetableElement : MonoBehaviour{
 
     public Globals.Type consultingType = Globals.Type.Null;
 
