@@ -9,12 +9,17 @@ public class CameraController : MonoBehaviour, PokemonCamera
     public bool targeted = false;
 
     public float distance = 5f;
-    public float heightOverCharacter = 0.4f;
-    public float lookOverCharacter = 0.3f;
-    public float lookSmooth = 5f;
-    public float followSmooth = 40f;
+    public float heightOverCharacter = 1.5f;
+    public float lookOverCharacter = 1f;
+    public float lookSmooth = 10f;
+    public float followSmooth = 8f;
     public float priorityTarget = 0.75f;
 
+    public float resizeFactor = 0.5f;
+    public float lookOffsetFactor = 1f;
+
+    private Vector2 lookOffset = Vector2.zero;
+    private float charFactor = 1f;
     private Vector3 lookPos;
     private Vector3 dir;
 
@@ -29,26 +34,22 @@ public class CameraController : MonoBehaviour, PokemonCamera
 
         if (!targeted)
         {
-            lookPos = character.position + Vector3.up * lookOverCharacter * distance;
-            //dir = transform.position - lookPos;
+            lookPos = character.position + Vector3.up * lookOverCharacter * charFactor;
         }
         else
         {
-            lookPos = character.position + (target.position - character.position) * priorityTarget + Vector3.up * lookOverCharacter * distance;
-            //Vector3 dir2 = transform.position - lookPos;
-            //dir2.y = 0;
-            //dir2.Normalize();
-            //dir = dir * .25f + dir2 * .75f;
+            lookPos = character.position + (target.position - character.position) * priorityTarget + Vector3.up * lookOverCharacter * charFactor;
         }
+        lookPos += (transform.up * lookOffset.y + transform.right * lookOffset.x) * lookOffsetFactor;
 
         dir = transform.position - lookPos;
         dir.y = 0;
         dir.Normalize();
-        Vector3 desiredPosition = character.position + dir * distance + Vector3.up * heightOverCharacter * distance;
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, followSmooth / distance * Time.fixedDeltaTime);
+        Vector3 desiredPosition = character.position + dir * distance * charFactor + Vector3.up * heightOverCharacter * charFactor;
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, followSmooth / charFactor * Time.fixedDeltaTime);
 
         Quaternion desiredRotation = Quaternion.LookRotation(lookPos - transform.position);
-        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, distance * lookSmooth * Time.fixedDeltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, lookSmooth / charFactor * Time.fixedDeltaTime);
 	}
 
     public void ToggleTargeted()
@@ -58,6 +59,11 @@ public class CameraController : MonoBehaviour, PokemonCamera
 
     public void SetCharacterHeight(float height)
     {
-        distance = height * 3;
+        charFactor = height * resizeFactor;
+    }
+
+    public void SetCameraOffset(Vector2 offset)
+    {
+        lookOffset = offset;
     }
 }

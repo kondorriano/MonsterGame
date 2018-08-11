@@ -24,7 +24,7 @@ public class TestingScene : MonoBehaviour {
             {
                 "tackle"
             }
-            )
+        )
     };
 
     PokemonSet[] sets2 = new PokemonSet[]

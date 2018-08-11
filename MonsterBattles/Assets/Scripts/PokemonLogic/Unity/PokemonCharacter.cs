@@ -57,7 +57,7 @@ public class PokemonCharacter : BattleElement {
 
         if (camPokemon != null)
         {
-            camPokemon.SetCharacterHeight(Mathf.Max(myChar.radius, myChar.height));
+            camPokemon.SetCharacterHeight(Mathf.Max(myChar.radius * 2, myChar.height));
         }
 
         if (camTrans == null)
