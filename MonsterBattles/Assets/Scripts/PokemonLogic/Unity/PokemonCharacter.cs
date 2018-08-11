@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface PokemonCamera
+{
+    void ToggleTargeted();
+}
+
 [RequireComponent(typeof(TargetableElement))]
 [RequireComponent(typeof(CharacterController))]
 public class PokemonCharacter : BattleElement {
@@ -15,7 +20,10 @@ public class PokemonCharacter : BattleElement {
 
     //Camera and CharacterController
     public Transform camTrans;
+    public PokemonCamera camPokemon;
     CharacterController myChar;
+    public int ControllerId = 1;
+    
 
     //Input
     float forwardInput, rightInput;
@@ -40,7 +48,9 @@ public class PokemonCharacter : BattleElement {
     private void Start()
     {
         myChar = GetComponent<CharacterController>();
-        camTrans = Camera.main.transform;
+
+        if (camTrans == null)
+            camTrans = Camera.main.transform;
     }
 
 
@@ -58,8 +68,13 @@ public class PokemonCharacter : BattleElement {
 
     void GetInput()
     {
-        forwardInput = Input.GetAxis("Vertical1");
-        rightInput = Input.GetAxis("Horizontal1");
+        forwardInput = Input.GetAxis(string.Format("Vertical{0}", ControllerId));
+        rightInput = Input.GetAxis(string.Format("Horizontal{0}", ControllerId));
+
+        if(Input.GetButtonDown(string.Format("L{0}", ControllerId)))
+        {
+            camPokemon.ToggleTargeted();
+        }
     }
 
     void Run()

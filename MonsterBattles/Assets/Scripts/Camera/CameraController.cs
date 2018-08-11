@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour {
+public class CameraController : MonoBehaviour, PokemonCamera
+{
     public Transform character;
     public Transform target;
     public bool targeted = false;
@@ -10,8 +11,8 @@ public class CameraController : MonoBehaviour {
     public float distance = 5f;
     public float heightOverCharacter = 2f;
     public float lookOverCharacter = 1.5f;
-    public float lookSmooth = 1f;
-    public float followSmooth = 1f;
+    public float lookSmooth = 10f;
+    public float followSmooth = 8f;
     public float priorityTarget = 0.75f;
 
     private Vector3 lookPos;
@@ -24,7 +25,7 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        if (Input.GetKeyDown(KeyCode.Space)) targeted = !targeted;
+        //if (Input.GetKeyDown(KeyCode.Space)) targeted = !targeted;
 
         if (!targeted)
         {
@@ -49,4 +50,9 @@ public class CameraController : MonoBehaviour {
         Quaternion desiredRotation = Quaternion.LookRotation(lookPos - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, lookSmooth * Time.fixedDeltaTime);
 	}
+
+    public void ToggleTargeted()
+    {
+        targeted = !targeted;
+    }
 }
