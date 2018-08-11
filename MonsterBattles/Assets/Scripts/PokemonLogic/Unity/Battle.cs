@@ -31,7 +31,7 @@ public class Battle {
             {
                 GameObject poke = new GameObject();
                 PokemonCharacter pC = poke.AddComponent<PokemonCharacter>();
-                pC.Init(b, pokemonsSets[i], this, i);
+                pC.Init(b, pokemonsSets[i], this);
                 pokemons[i] = pC;
             }
 
