@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct PokemonSkin
+{
+    string speciesId;
+    GameObject prefab;
+}
+
 public class TestingScene : MonoBehaviour {
 
     Battle b;
@@ -38,18 +44,36 @@ public class TestingScene : MonoBehaviour {
 
     //            PokemonSet set1 = new PokemonSet(   movesId: new string[]{ "testingrunevent" });
 
+    private bool WaitingForLoading = false;
+
     private void Start()
     {
-        Battle.Team[] teams = new Battle.Team[]
-        {
-            new Battle.Team(sets1),
-            new Battle.Team(sets2)
-        };
+        for(int i = 0; i < sets1.Length; i++)
+            Meshes.LoadAsync(sets1[i].speciesId);
 
-        b = new Battle(null, teams);
-        teams[0].pokemons[0].pokemonData.isActive = true;
-        teams[1].pokemons[0].pokemonData.isActive = true;
+        for (int i = 0; i < sets2.Length; i++)
+            Meshes.LoadAsync(sets2[i].speciesId);
 
+        WaitingForLoading = true;
     }
 
+    private void Update()
+    {
+        Meshes.Update();
+
+        if (Meshes.AllLoaded() && WaitingForLoading)
+        {
+            WaitingForLoading = false;
+
+            Battle.Team[] teams = new Battle.Team[]
+            {
+                new Battle.Team(sets1),
+                new Battle.Team(sets2)
+            };
+
+            b = new Battle(null, teams);
+            teams[0].pokemons[0].pokemonData.isActive = true;
+            teams[1].pokemons[0].pokemonData.isActive = true;
+        }
+    }
 }
