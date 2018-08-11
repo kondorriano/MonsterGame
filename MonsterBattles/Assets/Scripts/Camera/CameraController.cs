@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour, PokemonCamera
     public float priorityTarget = 0.75f;
 
     public float resizeFactor = 0.5f;
-    public float lookOffsetFactor = 1f;
+    public float lookOffsetFactor = .15f;
 
     private Vector2 lookOffset = Vector2.zero;
     private float charFactor = 1f;
@@ -40,7 +40,7 @@ public class CameraController : MonoBehaviour, PokemonCamera
         {
             lookPos = character.position + (target.position - character.position) * priorityTarget + Vector3.up * lookOverCharacter * charFactor;
         }
-        lookPos += (transform.up * lookOffset.y + transform.right * lookOffset.x) * lookOffsetFactor;
+        lookPos += (transform.up * lookOffset.y * 0.75f + transform.right * lookOffset.x) * lookOffsetFactor * (lookPos - transform.position).magnitude * charFactor;
 
         dir = transform.position - lookPos;
         dir.y = 0;
