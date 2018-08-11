@@ -5,8 +5,6 @@ public class NewCameraMovement : MonoBehaviour
 {
     public Transform target;
 
-    
-
     [System.Serializable]
     public class PositionSettings
     {
