@@ -53,10 +53,18 @@ public class Pokemon {
 
     public class AttackBy
     {
-        public Pokemon pokemon;
+        public BattleElement pokemon;
         public int damage;
         public string move;
         public bool thisTurn;
+
+        public AttackBy(BattleElement pokemon = null, int damage = 0, string move = "", bool thisTurn = false)
+        {
+            this.pokemon = pokemon;
+            this.damage = damage;
+            this.move = move;
+            this.thisTurn = thisTurn;
+        }
     }
 
     //Access info //Must not change during battle
@@ -90,7 +98,7 @@ public class Pokemon {
     public AttackBy lastAttackedBy;
     public bool isActive;
     public int activeTurns;
-    public EffectData statusData; //<---modifiable data
+    public Volatile statusData; //<---modifiable data
     public AbilityData abilityData; //<---modifiable data
     public ItemData itemData; //<---modifiable data
     public Dictionary<string, Volatile> volatiles; //POSSIBLY NEED ITS OWN CLASS
@@ -766,6 +774,14 @@ public class Pokemon {
 
     }
 
+    public void GotAttacked(string moveId, int damage, BattleElement source)
+    {
+        if (damage < 0) damage = 0;
+        this.lastAttackedBy = new AttackBy(
+            pokemon: source, damage: damage, move: moveId, thisTurn: true
+            );
+    }
+
     bool FormeChange(string templateId, bool useBattleEffect = true, EffectData sourceEffect = null, bool isPermanent = false)
     {
         if (sourceEffect == null && useBattleEffect) sourceEffect = battle.effectInEvent;
@@ -942,6 +958,67 @@ public class Pokemon {
         return stat;
     }
 
+    public bool SetStatus(string statusId, BattleElement source = null, EffectData sourceEffect = null, bool ignoreImmunities = false)
+    {
+        if (this.hp <= 0) return false;
+        if (this.statusId == statusId) return false;
+        EffectData myStatus = battle.GetPureEffect(statusId);
+        if(battle.currentEvent != null)
+        {
+            if (source == null) source = battle.currentEvent.source;
+            if (sourceEffect == null) sourceEffect = battle.effectInEvent;
+        }
+
+        if (!ignoreImmunities && !(source is PokemonCharacter &&
+            ((PokemonCharacter)source).pokemonData.HasAbilityActive(new string[] { "corrosion" }) && 
+            (myStatus.id == "tox" || myStatus.id == "psn" )))
+        {
+            // the game currently never ignores immunities
+            if(HasStatusImmunity((statusId == "tox") ? "psn" : statusId))
+            {
+                return false;
+            }
+        }
+
+        string prevStatus = this.statusId;
+        Volatile prevStatusData = this.statusData;
+
+        Battle.RelayVar relayVar = new Battle.RelayVar(effectValue: myStatus);
+        bool result = !battle.RunEvent("SetStatus", targetData, source, sourceEffect, relayVar).getEndEvent();
+        if (!result) return false;
+
+        this.statusId = myStatus.id;
+        this.statusData = new Volatile(myStatus);
+        this.statusData.SetData(targetData, source);
+
+        if(myStatus.eventMethods.durationCallback != null)
+        {
+            relayVar = new Battle.RelayVar();
+            this.statusData.duration = myStatus.eventMethods.StartCallback("durationCallback", battle, relayVar, targetData, source, sourceEffect).integerValue;
+        }
+
+        if(battle.SingleEvent("Start", myStatus, this.statusData, targetData, source, sourceEffect).getEndEvent())
+        {
+            this.statusId = prevStatus;
+            this.statusData = prevStatusData;
+            return false;
+        }
+
+        relayVar = new Battle.RelayVar(effectValue: myStatus);
+        if(battle.RunEvent("AfterSetStatus", targetData, source, sourceEffect, relayVar).getEndEvent())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool TrySetStatus(string statusId, BattleElement source = null, EffectData sourceEffect = null)
+    {
+        string statusToSend = (this.statusId == "") ? statusId : this.statusId;
+        return SetStatus(statusToSend, source, sourceEffect);
+    }
+
 
 
     /**
@@ -1077,5 +1154,10 @@ public class Pokemon {
     public void RunMegaEvo()
     {
 
+    }
+
+    public void StartCoolDown()
+    {
+        Debug.LogError("UEEEPALEEE");
     }
 }

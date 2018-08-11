@@ -27,6 +27,9 @@ public class Volatile : EffectData
         this.effectType = status.effectType;
         this.isZ = status.isZ;
 
+        this.onBasePowerPriority = status.onBasePowerPriority;
+        this.onBeforeMovePriority = status.onBeforeMovePriority;
+
         this.onModifyAccuracyPriority = status.onModifyAccuracyPriority;
         this.onModifyAtkPriority = status.onModifyAtkPriority;
         this.onModifyCritRatioPriority = status.onModifyCritRatioPriority;
@@ -40,10 +43,14 @@ public class Volatile : EffectData
         this.onResidualOrder = status.onResidualOrder;
         this.recoil = status.recoil;
         this.secondaries = status.secondaries;
+        this.self = status.self;
         this.shortDesc = status.shortDesc;
+        this.status = status.status;
 
         /*Effect*/
         this.exists = status.exists;
+        this.time = status.time;
+
 
         linkedSources = new List<BattleElement>();
     }
