@@ -117,7 +117,7 @@ public class ActiveMove : BattleElement
         else activeData.stabModifier = 1;
 
         bool hitResult = !battle.SingleEvent("PrepareHit", activeData.moveData, null, null, source, activeData.moveData).getEndEvent();
-        if (!hitResult) return false;
+        //if (!hitResult) return false;
 
         battle.RunEvent("PrepareHit", source.targetScript, null, activeData.moveData);
 
@@ -570,6 +570,8 @@ public class ActiveMove : BattleElement
         //eachevent update
 
         //Secondary events
+
+        return false;
     }
 
     int MoveHit(TargetableElement target)
@@ -615,6 +617,7 @@ public class ActiveMove : BattleElement
         //move has secondaries
         //Dragout
         //SelfSwitch
+        return 1;
     }
 
 
