@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void LateUpdate () {
+	void FixedUpdate () {
         if (Input.GetKeyDown(KeyCode.Space)) targeted = !targeted;
 
         if (!targeted)
@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour {
         }
         else
         {
-            lookPos = character.position + (target.position - character.position) * .75f + Vector3.up * lookOverCharacter;
+            lookPos = character.position + (target.position - character.position) * priorityTarget + Vector3.up * lookOverCharacter;
             //Vector3 dir2 = transform.position - lookPos;
             //dir2.y = 0;
             //dir2.Normalize();
@@ -44,9 +44,9 @@ public class CameraController : MonoBehaviour {
         dir.y = 0;
         dir.Normalize();
         Vector3 desiredPosition = character.position + dir * distance + Vector3.up * heightOverCharacter;
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, followSmooth * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, followSmooth * Time.fixedDeltaTime);
 
         Quaternion desiredRotation = Quaternion.LookRotation(lookPos - transform.position);
-        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, lookSmooth * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, lookSmooth * Time.fixedDeltaTime);
 	}
 }
