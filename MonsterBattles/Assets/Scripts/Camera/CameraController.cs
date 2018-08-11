@@ -56,8 +56,8 @@ public class CameraController : MonoBehaviour, PokemonCamera
         targeted = !targeted;
     }
 
-    public void SetCharacterHeight(float dist)
+    public void SetCharacterHeight(float height)
     {
-        distance = dist;
+        distance = height * 3;
     }
 }
