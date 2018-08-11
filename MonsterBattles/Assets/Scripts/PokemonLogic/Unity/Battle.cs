@@ -29,7 +29,7 @@ public class Battle {
             pokemons = new PokemonCharacter[pokemonsSets.Length];
             for(int i = 0; i < pokemonsSets.Length; ++i)
             {
-                GameObject poke = new GameObject();
+                GameObject poke = Object.Instantiate(Meshes.GetMeshSync(pokemonsSets[i].speciesId));
                 PokemonCharacter pC = poke.AddComponent<PokemonCharacter>();
                 pC.Init(b, pokemonsSets[i], this);
                 pokemons[i] = pC;
