@@ -191,15 +191,18 @@ public class MoveData : EffectData
         other.eventMethods = this.eventMethods.ShallowCopy();
         /*EffectData*/
         if (this.effect != null) other.effect = this.effect.DeepCopy();
-        other.drain = (int[])(this.drain).Clone();
-        other.recoil = (int[])(this.recoil).Clone();
-        other.secondaries = new Globals.SecondaryEffect[this.secondaries.Length];
-        for (int i = 0; i < this.secondaries.Length; ++i)
+        if(this.drain != null) other.drain = (int[])(this.drain).Clone();
+        if(this.recoil != null) other.recoil = (int[])(this.recoil).Clone();
+        if (this.secondaries != null)
         {
-            other.secondaries[i] = this.secondaries[i].DeepCopy();
+            other.secondaries = new Globals.SecondaryEffect[this.secondaries.Length];
+            for (int i = 0; i < this.secondaries.Length; ++i)
+            {
+                other.secondaries[i] = this.secondaries[i].DeepCopy();
+            }
         }
         /*MoveData*/
-        other.zMoveBoost = this.zMoveBoost.ShallowCopy();
+        if(this.zMoveBoost != null) other.zMoveBoost = this.zMoveBoost.ShallowCopy();
         return other;
     }
 }

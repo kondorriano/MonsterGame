@@ -1191,7 +1191,6 @@ public class Pokemon {
 
     public void StartActionCoolDown()
     {
-        Debug.LogError("UEEEPALEEE");
         inActionCooldown = true;
         actionTurnCounter = battle.turnTime;
     }
