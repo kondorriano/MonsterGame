@@ -167,7 +167,7 @@ public class TestingEverything : MonoBehaviour {
             pc1.Init(b, set1, t1);
             pc1.pokemonData.isActive = true;
             t1.pokemons = new PokemonCharacter[] {pc1 };
-            t1.teamMoves = new ActiveMove[0];
+            t1.teamMoves = new List<ActiveMove>();
 
             PokemonSet set2 = new PokemonSet(speciesId: "bulbasaur", name: "Tentomon", level: 50, gender: Globals.GenderName.F, abilityId: "testingrunevent", itemId: "testingrunevent", movesId: new string[] { "testingrunevent" });
             Battle.Team t2 = new Battle.Team(new PokemonSet[] { set2 });
@@ -176,7 +176,7 @@ public class TestingEverything : MonoBehaviour {
             pc2.Init(b, set2, t2);
             pc2.pokemonData.isActive = true;
             t2.pokemons = new PokemonCharacter[] { pc2 };
-            t2.teamMoves = new ActiveMove[0];
+            t2.teamMoves = new List<ActiveMove>();
 
 
             b.teams = new Battle.Team[] { t1,t2};

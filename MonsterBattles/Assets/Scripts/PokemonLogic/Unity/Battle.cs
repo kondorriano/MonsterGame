@@ -16,12 +16,13 @@ public class Battle {
     {
         public PokemonSet[] pokemonsSets;
         public PokemonCharacter[] pokemons;
-        public ActiveMove[] teamMoves; //should be subset of battle.activeMoves
+        public List<ActiveMove> teamMoves; //should be subset of battle.activeMoves
         public bool zMoveUsed = false;
 
         public Team(PokemonSet[] set)
         {
             pokemonsSets = set;
+            teamMoves = new List<ActiveMove>();
         }
 
         public void InitPokemons(Battle b)
