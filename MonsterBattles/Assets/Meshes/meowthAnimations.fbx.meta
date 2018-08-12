@@ -1,50 +1,89 @@
 fileFormatVersion: 2
-guid: 1bf1a878222f944458952fa90b75f9f5
+guid: e858cad8fae476345b2a0f9a2ba97dc2
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Arm.L
-    100004: Arm.L_end
-    100006: Arm.R
-    100008: Arm.R_end
-    100010: Armature
-    100012: Bulb
-    100014: Bulb_end
-    100016: Chest
-    100018: Cube
-    100020: Head
-    100022: Head_end
-    100024: Leg.L
-    100026: Leg.L_end
-    100028: Leg.R
-    100030: Leg.R_end
-    100032: Neck
-    100034: Torso
-    400000: //RootNode
-    400002: Arm.L
-    400004: Arm.L_end
-    400006: Arm.R
-    400008: Arm.R_end
-    400010: Armature
-    400012: Bulb
-    400014: Bulb_end
-    400016: Chest
-    400018: Cube
-    400020: Head
-    400022: Head_end
-    400024: Leg.L
-    400026: Leg.L_end
-    400028: Leg.R
-    400030: Leg.R_end
-    400032: Neck
-    400034: Torso
-    2100000: No Name
-    2300000: //RootNode
-    2300002: Cube
-    3300000: //RootNode
-    3300002: Cube
-    4300000: Cube
+    100000: Armature
+    100002: Chest
+    100004: Cube.002
+    100006: Fingers01.L
+    100008: Fingers01.R
+    100010: Fingers02.L
+    100012: Fingers02.L_end
+    100014: Fingers02.R
+    100016: Fingers02.R_end
+    100018: Foot.L
+    100020: Foot.R
+    100022: Hand.R
+    100024: Hanl.L
+    100026: Head
+    100028: Head_end
+    100030: LowerArm.L
+    100032: LowerArm.R
+    100034: LowerLeg.L
+    100036: LowerLeg.R
+    100038: //RootNode
+    100040: Neck
+    100042: Tail01
+    100044: Tail02
+    100046: Tail03
+    100048: Tail04
+    100050: Tail04_end
+    100052: Toes.L
+    100054: Toes.L_end
+    100056: Toes.R
+    100058: Toes.R_end
+    100060: Torso
+    100062: UpperArm.L
+    100064: UpperArm.R
+    100066: UpperLeg.L
+    100068: UpperLeg.R
+    400000: Armature
+    400002: Chest
+    400004: Cube.002
+    400006: Fingers01.L
+    400008: Fingers01.R
+    400010: Fingers02.L
+    400012: Fingers02.L_end
+    400014: Fingers02.R
+    400016: Fingers02.R_end
+    400018: Foot.L
+    400020: Foot.R
+    400022: Hand.R
+    400024: Hanl.L
+    400026: Head
+    400028: Head_end
+    400030: LowerArm.L
+    400032: LowerArm.R
+    400034: LowerLeg.L
+    400036: LowerLeg.R
+    400038: //RootNode
+    400040: Neck
+    400042: Tail01
+    400044: Tail02
+    400046: Tail03
+    400048: Tail04
+    400050: Tail04_end
+    400052: Toes.L
+    400054: Toes.L_end
+    400056: Toes.R
+    400058: Toes.R_end
+    400060: Torso
+    400062: UpperArm.L
+    400064: UpperArm.R
+    400066: UpperLeg.L
+    400068: UpperLeg.R
+    2100000: skin.002
+    2100002: brown.002
+    2100004: coin.002
+    2100006: eyes.002
+    2100008: eyelines.002
+    2100010: coinlines.002
+    4300000: Cube.002
+    7400000: Armature|Idle
+    7400002: Armature|Run
+    9500000: //RootNode
+    13700000: Cube.002
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -96,8 +135,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -122,7 +161,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

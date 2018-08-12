@@ -26,6 +26,7 @@ public class PokemonCharacter : BattleElement {
     public Transform camTrans;
     public PokemonCamera camPokemon;
     CharacterController myChar;
+    Animator myAnim;
     public int ControllerId = 1;
 
     public bool canMove = true;
@@ -59,6 +60,7 @@ public class PokemonCharacter : BattleElement {
     private void Start()
     {
         myChar = GetComponent<CharacterController>();
+        myAnim = transform.GetChild(0).GetComponent<Animator>();
 
         CapsuleCollider myCol = GetComponent<CapsuleCollider>();
         if (myCol)
@@ -90,7 +92,7 @@ public class PokemonCharacter : BattleElement {
     void FixedUpdate ()
     {
         if (canMove) Run();
-
+        Animations();
         myChar.Move((velocity /*+ upVelocity*/) * Time.fixedDeltaTime);
     }
 
@@ -124,6 +126,14 @@ public class PokemonCharacter : BattleElement {
             }
             if (id < pokemonData.moveSlots.Length) RunAction(Globals.ActionType.Move, id);
         }
+    }
+
+    void Animations()
+    {
+        Vector3 velo = velocity;
+        velo.y = 0;
+        bool isRunning = velocity.magnitude > 0;
+        myAnim.SetBool("isRunning", isRunning);
     }
 
     void Run()

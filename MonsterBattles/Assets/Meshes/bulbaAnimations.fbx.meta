@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 1bf1a878222f944458952fa90b75f9f5
+guid: 6e0f646109783804299aacbd3903f06b
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Arm.L
-    100004: Arm.L_end
-    100006: Arm.R
-    100008: Arm.R_end
-    100010: Armature
-    100012: Bulb
-    100014: Bulb_end
+    100000: Arm.L
+    100002: Arm.L_end
+    100004: Arm.R
+    100006: Arm.R_end
+    100008: Armature
+    100010: Bulb
+    100012: Bulb_end
+    100014: //RootNode
     100016: Chest
     100018: Cube
     100020: Head
@@ -21,14 +21,14 @@ ModelImporter:
     100030: Leg.R_end
     100032: Neck
     100034: Torso
-    400000: //RootNode
-    400002: Arm.L
-    400004: Arm.L_end
-    400006: Arm.R
-    400008: Arm.R_end
-    400010: Armature
-    400012: Bulb
-    400014: Bulb_end
+    400000: Arm.L
+    400002: Arm.L_end
+    400004: Arm.R
+    400006: Arm.R_end
+    400008: Armature
+    400010: Bulb
+    400012: Bulb_end
+    400014: //RootNode
     400016: Chest
     400018: Cube
     400020: Head
@@ -40,11 +40,11 @@ ModelImporter:
     400032: Neck
     400034: Torso
     2100000: No Name
-    2300000: //RootNode
-    2300002: Cube
-    3300000: //RootNode
-    3300002: Cube
     4300000: Cube
+    7400000: Armature|Idle
+    7400002: Armature|Run
+    9500000: //RootNode
+    13700000: Cube
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -96,8 +96,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -122,7 +122,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
