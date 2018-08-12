@@ -7,6 +7,7 @@ public interface PokemonCamera
     void ToggleTargeted();
     void SetCharacterHeight(float height);
     void SetCameraOffset(Vector2 axis);
+    Transform GetTargetedPokemon();
 }
 
 [RequireComponent(typeof(TargetableElement))]
@@ -187,16 +188,29 @@ public class PokemonCharacter : BattleElement {
     }
 
     //Check Input of actions here (move, megaevo, Switch pokemon, use item FROM BAG, ultraburst? zmove?)
-    void RunAction(Globals.ActionType action)
+    void RunAction(Globals.ActionType action, int moveSlotId, bool zMove = false)
     {
         //Here start cooldown if needed
 
+
+
         //Move
-        if(action == Globals.ActionType.Move)
+        if (action == Globals.ActionType.Move)
         {
             //set cooldown
             pokemonData.StartActionCoolDown();
-            //RunMove(Move)
+            Transform myTarget = camPokemon.GetTargetedPokemon();
+            Pokemon.TargetLocation targetto;
+            if (myTarget = null)
+            {
+                targetto = new Pokemon.TargetLocation(transform.forward);
+            } else
+            {
+                targetto = new Pokemon.TargetLocation(Vector3.zero, myTarget);
+
+            }
+
+            pokemonData.RunMove(moveSlotId, 0, zMove, false, targetto);
         }
 
 

@@ -66,4 +66,10 @@ public class CameraController : MonoBehaviour, PokemonCamera
     {
         lookOffset = offset;
     }
+
+    public Transform GetTargetedPokemon()
+    {
+        if (!targeted) return null;
+        return target;
+    }
 }

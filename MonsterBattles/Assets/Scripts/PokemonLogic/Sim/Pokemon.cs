@@ -8,7 +8,13 @@ public class Pokemon {
     public class TargetLocation
     {
         public Transform actualTarget;
-        public Transform staticTarget;
+        public Vector3 direction;
+
+        public TargetLocation(Vector3 direction, Transform actualTarget = null)
+        {
+            this.actualTarget = actualTarget;
+            this.direction = direction;
+        }
     }    
 
     public class MoveSlot
