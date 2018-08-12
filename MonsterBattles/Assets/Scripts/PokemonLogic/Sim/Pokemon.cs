@@ -621,7 +621,7 @@ public class Pokemon {
         if (relayVar.getEndEvent()) return false;
 
         Volatile newVolatile = new Volatile(status);
-        newVolatile.SetData(target: targetData, source: source, sourceEffect: sourceEffect);
+        newVolatile.SetData(turnTime: battle.turnTime, target: targetData, source: source, sourceEffect: sourceEffect);
 
         if(newVolatile.eventMethods.durationCallback != null)
         {
@@ -1013,7 +1013,7 @@ public class Pokemon {
 
         this.statusId = myStatus.id;
         this.statusData = new Volatile(myStatus);
-        this.statusData.SetData(targetData, source);
+        this.statusData.SetData(battle.turnTime, targetData, source);
 
         if(myStatus.eventMethods.durationCallback != null)
         {

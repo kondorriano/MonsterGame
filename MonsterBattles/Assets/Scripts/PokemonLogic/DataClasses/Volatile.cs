@@ -58,7 +58,7 @@ public class Volatile : EffectData
         linkedSources = new List<BattleElement>();
     }
 
-    public void SetData(TargetableElement target = null, BattleElement source = null, EffectData sourceEffect = null, int turnTime = 0)
+    public void SetData(float turnTime, TargetableElement target = null, BattleElement source = null, EffectData sourceEffect = null)
     {
         this.target = target;
         this.source = source;
