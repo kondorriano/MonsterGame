@@ -129,7 +129,11 @@ public class PokemonCharacter : BattleElement {
             {
                 if (pokemonData.moveSlots[id].id == "payday") break;
             }
-            if (id < pokemonData.moveSlots.Length) RunAction(Globals.ActionType.Move, id);
+            if (id < pokemonData.moveSlots.Length)
+            {
+                RunAction(Globals.ActionType.Move, id);
+                Debug.Log(pokemonData.moveSlots[id].pp);
+            }
         }
     }
 

@@ -23,16 +23,19 @@ public class LineProjectile : MonoBehaviour {
         if (timeToLive <= 0)
         {
             father.GetComponent<paydayMoveController>().ProjectileDied(gameObject);
-            Destroy(this);
         }
 
         transform.RotateAroundLocal(spinAxis, turnSpeed * Time.fixedDeltaTime);
-        transform.position += direction * speed * Time.fixedDeltaTime;
 	}
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        BattleElement be = collision.gameObject.GetComponent<BattleElement>();
-        if (be != null) father.GetComponent<paydayMoveController>().ImpactedWith(be);
+        TargetableElement te = other.gameObject.GetComponent<TargetableElement>();
+        if (te != null) father.GetComponent<paydayMoveController>().ImpactedWith(te, gameObject);
+    }
+
+    public void StartMoving()
+    {
+        GetComponent<Rigidbody>().velocity = direction * speed;
     }
 }

@@ -34,8 +34,10 @@ public class paydayMoveController : MonoBehaviour {
                 LineProjectile lp = proj.GetComponent<LineProjectile>();
 
                 if (am.targetLocation.actualTarget == null) lp.direction = am.targetLocation.direction;
-                else lp.direction = (am.targetLocation.actualTarget.position - transform.position).normalized;
-                lp.direction = am.targetLocation.direction;
+                else lp.direction = (am.targetLocation.actualTarget.position - am.source.transform.position).normalized;
+                
+                lp.father = transform;
+                lp.StartMoving();
                 projectiles.Add(proj);
             }
         }
@@ -51,14 +53,16 @@ public class paydayMoveController : MonoBehaviour {
         {
             if (projectiles.Count == 0)
             {
-                Destroy(this);
+                Destroy(gameObject);
             }
         }
 	}
 
-    public void ImpactedWith(BattleElement be)
+    public void ImpactedWith(TargetableElement te, GameObject proj)
     {
-        Debug.Log("Collided with " + be.gameObject.name);
+        Debug.Log(am.TryMoveHit(te));
+        projectiles.Remove(proj);
+        Destroy(proj);
     }
 
     public void ProjectileDied(GameObject go)

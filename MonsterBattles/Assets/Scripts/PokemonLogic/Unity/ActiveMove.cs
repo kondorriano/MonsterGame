@@ -494,7 +494,7 @@ public class ActiveMove : BattleElement
 
 
     //Called when hit a target
-    protected int TryMoveHit(TargetableElement target)
+    public int TryMoveHit(TargetableElement target)
     {
         activeData.zBrokeProtect = false;
         bool hitResult = true;
