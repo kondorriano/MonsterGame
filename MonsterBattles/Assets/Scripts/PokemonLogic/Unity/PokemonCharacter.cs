@@ -41,7 +41,7 @@ public class PokemonCharacter : BattleElement {
     public const float velMonsterMax = 10000;
     public const float velGravityConst = 25.0f;
 
-    public const float velJumpBase = 10;
+    public const float velJumpBase = 7;
     public const float jumpPressTime = 0.1f;
 
     public void Init(Battle b, PokemonSet set, Battle.Team t)
@@ -153,15 +153,15 @@ public class PokemonCharacter : BattleElement {
                 }
             }
         }
-        else
+
+        if (myChar.isGrounded && velPlane.magnitude != 0 && 
+            (dir.magnitude <= joystickDetection || Vector2.Dot(velPlane, dir) < 0.2))
         {
-            if (myChar.isGrounded)
+            Vector2 velPlaneDir = velPlane.normalized * -1;
+            velPlane += velPlaneDir * Time.fixedDeltaTime * 50;
+            if (Vector2.Dot(velPlaneDir, velPlane) >= 0)
             {
-                velPlane = velPlane * 0.8f;
-                if (velPlane.magnitude < 0.1f)
-                {
-                    velPlane = Vector2.zero;
-                }
+                velPlane = Vector2.zero;
             }
         }
 
