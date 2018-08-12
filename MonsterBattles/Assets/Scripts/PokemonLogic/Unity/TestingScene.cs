@@ -37,7 +37,7 @@ public class TestingScene : MonoBehaviour {
             abilityId: "Technician",
             movesId: new string[]
             {
-                "tackle"
+                "payday"
             }
             )
     };

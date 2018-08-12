@@ -27,7 +27,8 @@ public class PokemonCharacter : BattleElement {
     public PokemonCamera camPokemon;
     CharacterController myChar;
     public int ControllerId = 1;
-    
+
+    public bool canMove = true;
 
     //Input
     float forwardInput, rightInput;
@@ -88,7 +89,7 @@ public class PokemonCharacter : BattleElement {
 
     void FixedUpdate ()
     {
-        Run();
+        if (canMove) Run();
 
         myChar.Move((velocity /*+ upVelocity*/) * Time.fixedDeltaTime);
     }
@@ -112,6 +113,16 @@ public class PokemonCharacter : BattleElement {
         if (Input.GetButtonDown(string.Format("R{0}", ControllerId)))
         {
             jumpPressed = jumpPressTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            int id = 0;
+            for (id = 0; id < pokemonData.moveSlots.Length; id++)
+            {
+                if (pokemonData.moveSlots[id].id == "payday") break;
+            }
+            if (id < pokemonData.moveSlots.Length) RunAction(Globals.ActionType.Move, id);
         }
     }
 

@@ -7,7 +7,11 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: MeowthEyes
+<<<<<<< HEAD
   m_Shader: {fileID: 4800000, guid: 513aea7db047ce447b08d4f940c95d0f, type: 3}
+=======
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+>>>>>>> 64b16254d6de0937f17a9758be3799814a8a4a1a
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
