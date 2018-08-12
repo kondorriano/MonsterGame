@@ -96,6 +96,11 @@ public class PokemonCharacter : BattleElement {
         myChar.Move((velocity /*+ upVelocity*/) * Time.fixedDeltaTime);
     }
 
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(10, 10 * ControllerId, 100, 20), velPlane.magnitude.ToString());
+    }
+
     void GetInput()
     {
         forwardInput = Input.GetAxis(string.Format("Vertical{0}", ControllerId));

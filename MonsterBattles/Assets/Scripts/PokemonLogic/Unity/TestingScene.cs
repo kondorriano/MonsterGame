@@ -46,6 +46,8 @@ public class TestingScene : MonoBehaviour {
 
     private bool WaitingForLoading = false;
 
+    public GameObject[] SpawnPoints;
+
     private void Start()
     {
         for(int i = 0; i < sets1.Length; i++)
@@ -85,7 +87,7 @@ public class TestingScene : MonoBehaviour {
         }
     }
 
-    public static void AddCameras(Battle.Team[] teams)
+    public void AddCameras(Battle.Team[] teams)
     {
         int playerCount = 0;
         Camera[] cameras = new Camera[2];
@@ -101,6 +103,7 @@ public class TestingScene : MonoBehaviour {
                 CameraController playerCameraController = playerCameraGO.AddComponent<CameraController>();
                 cameras[playerCount] = playerCamera;
                 cControllers[playerCount] = playerCameraController;
+
                 playerCount++;
             }
         }
@@ -117,9 +120,6 @@ public class TestingScene : MonoBehaviour {
             rect1.width = 0.5f;
             cameras[1].rect = rect1;
 
-            teams[0].pokemons[0].transform.localPosition = new Vector3(0, 0, 5);
-            teams[1].pokemons[0].transform.localPosition = new Vector3(0, 0, -5);
-
             cControllers[0].character = cControllers[1].target = teams[0].pokemons[0].transform;
             cControllers[1].character = cControllers[0].target = teams[1].pokemons[0].transform;
 
@@ -131,6 +131,20 @@ public class TestingScene : MonoBehaviour {
 
             teams[0].pokemons[0].ControllerId = 1;
             teams[1].pokemons[0].ControllerId = 2;
+
+            if (SpawnPoints.Length > 0)
+            {
+                Transform spawn = SpawnPoints[0].transform;
+                teams[0].pokemons[0].transform.localPosition = spawn.localPosition;
+                teams[0].pokemons[0].transform.localRotation = spawn.localRotation;
+            }
+
+            if (SpawnPoints.Length > 1)
+            {
+                Transform spawn = SpawnPoints[1].transform;
+                teams[1].pokemons[0].transform.localPosition = spawn.localPosition;
+                teams[1].pokemons[0].transform.localRotation = spawn.localRotation;
+            }
         }
 
         if (Camera.main)
