@@ -222,7 +222,7 @@ public class PokemonCharacter : BattleElement {
             pokemonData.StartActionCoolDown();
             Transform myTarget = camPokemon.GetTargetedPokemon();
             Pokemon.TargetLocation targetto;
-            if (myTarget = null)
+            if (myTarget == null)
             {
                 targetto = new Pokemon.TargetLocation(transform.forward);
             } else
