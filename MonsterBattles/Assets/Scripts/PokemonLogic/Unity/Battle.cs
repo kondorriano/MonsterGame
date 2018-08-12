@@ -46,7 +46,7 @@ public class Battle {
 
     ActiveWeather activeWeather; //Weather on field
     ActiveTerrain activeTerrain; //terrain on field
-    ActiveMove[] activeMoves; //Moves on the field
+    List<ActiveMove> activeMoves; //Moves on the field
     ActiveAtrezzo[] activeAtrezzo; //Attrezzo being used as an attack?
 
     int eventDepth = 0;
@@ -67,6 +67,7 @@ public class Battle {
         this.effectInEvent = null;
         this.effectDataInEvent = null;
         this.targetInEvent = null;
+        this.activeMoves = new List<ActiveMove>();
 
         //Generate all pokemon characters
         for(int i = 0; i < teams.Length; ++i)
@@ -87,6 +88,11 @@ public class Battle {
     public void LogData(string data)
     {
         //Log in an ui new data
+    }
+
+    public void AddNewMove(ActiveMove move)
+    {
+        activeMoves.Add(move);
     }
 
     public int Damage(int damage, TargetableElement target = null, BattleElement source = null, EffectData effect = null, bool instafaint = false)

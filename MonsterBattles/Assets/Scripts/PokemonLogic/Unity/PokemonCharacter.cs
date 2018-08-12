@@ -19,6 +19,7 @@ public class PokemonCharacter : BattleElement {
     //Pokemon Data
     public Pokemon pokemonData;
     public TargetableElement targetScript;
+    public GameObject currentActiveMove;
 
     //Camera and CharacterController
     public Transform camTrans;
@@ -50,6 +51,7 @@ public class PokemonCharacter : BattleElement {
         targetScript = GetComponent<TargetableElement>();
         targetScript.sourceElement = this;
         this.id = pokemonData.speciesId;
+        currentActiveMove = null;
     }
 
     private void Start()
@@ -215,5 +217,8 @@ public class PokemonCharacter : BattleElement {
         }
     }
 
-
+    public void SetActiveMove(GameObject move = null)
+    {
+        this.currentActiveMove = move;
+    }
 }
