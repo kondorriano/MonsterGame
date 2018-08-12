@@ -33,6 +33,8 @@ public class paydayMoveController : MonoBehaviour {
                 Physics.IgnoreCollision(proj.GetComponent<Collider>(), am.source.GetComponent<CharacterController>());
                 LineProjectile lp = proj.GetComponent<LineProjectile>();
 
+                if (am.targetLocation.actualTarget == null) lp.direction = am.targetLocation.direction;
+                else lp.direction = (am.targetLocation.actualTarget.position - transform.position).normalized;
                 lp.direction = am.targetLocation.direction;
                 projectiles.Add(proj);
             }
