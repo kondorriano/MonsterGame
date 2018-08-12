@@ -5,6 +5,10 @@ AnimatorOverrideController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Meowth
+  m_Name: Bulbasaur
   m_Controller: {fileID: 9100000, guid: 612901816c9ba1247889b78aad7ee3d5, type: 2}
-  m_Clips: []
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 6e0f646109783804299aacbd3903f06b, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 6e0f646109783804299aacbd3903f06b, type: 3}
+  - m_OriginalClip: {fileID: 7400002, guid: 6e0f646109783804299aacbd3903f06b, type: 3}
+    m_OverrideClip: {fileID: 7400002, guid: 6e0f646109783804299aacbd3903f06b, type: 3}
