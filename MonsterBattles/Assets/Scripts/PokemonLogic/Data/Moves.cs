@@ -144,8 +144,7 @@ public class Moves {
             flags: Globals.MoveFlags.Protect | Globals.MoveFlags.Mirror,
             type: Globals.Type.Normal,
             zMovePower: 100,
-            contestType: Globals.ContestTypes.Clever,
-            instantiate: () => {return new ActiveMove();}
+            contestType: Globals.ContestTypes.Clever
         )},
         {"waterpulse", new MoveData(
             num: 352,

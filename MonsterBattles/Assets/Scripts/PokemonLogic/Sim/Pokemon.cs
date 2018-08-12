@@ -1165,7 +1165,10 @@ public class Pokemon {
 
     public void InstantiateMove(ActiveMove.ActiveMoveData activeMove, TargetLocation moveTarget)
     {
-
+        GameObject moveMesh = Resources.Load<GameObject>(activeMove.moveId + "ActiveMove");
+        moveMesh = GameObject.Instantiate(moveMesh, myPokemon.transform.position, myPokemon.transform.rotation);
+        moveMesh.GetComponent<ActiveMove>().Init(battle, myPokemon, activeMove, moveTarget);
+        myPokemon.SetActiveMove(moveMesh);
     }
 
     //Switch pokemon

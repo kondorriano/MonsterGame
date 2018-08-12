@@ -66,21 +66,28 @@ public class ActiveMove : BattleElement
         }
     }
 
+    [HideInInspector]
     public Battle battle;
+    [HideInInspector]
     public TargetableElement targetScript;
+    [HideInInspector]
     public PokemonCharacter source;
+    [HideInInspector]
+    public ActiveMoveData activeData;
+    [HideInInspector]
+    public Pokemon.TargetLocation targetLocation;
 
-    public ActiveMoveData activeData; //TODO
 
 
-    public void Init(Battle battle, PokemonCharacter source, ActiveMoveData activeData)
+    public void Init(Battle battle, PokemonCharacter source, ActiveMoveData activeData, Pokemon.TargetLocation targetLocation)
     {
         this.battle = battle;
+        this.battle.AddNewMove(this);
         targetScript = GetComponent<TargetableElement>();
         targetScript.sourceElement = this;
         this.source = source;
-
         this.activeData = activeData;
+        this.targetLocation = targetLocation;
 
         PrepareDamageData();
         OnCreatedMove();
@@ -454,7 +461,7 @@ public class ActiveMove : BattleElement
         return accuracy;
     }
 
-    void MakeMoveFail()
+    protected void MakeMoveFail()
     {
         //singleevent MOVEFAIL
         //move fail animations
@@ -487,7 +494,7 @@ public class ActiveMove : BattleElement
 
 
     //Called when hit a target
-    int TryMoveHit(TargetableElement target)
+    protected int TryMoveHit(TargetableElement target)
     {
         activeData.zBrokeProtect = false;
         bool hitResult = true;
@@ -582,7 +589,7 @@ public class ActiveMove : BattleElement
         return damage;
     }
 
-    int MoveHit(TargetableElement target, EffectData moveData = null, bool isSecondary = false, bool isSelf = false)
+    protected int MoveHit(TargetableElement target, EffectData moveData = null, bool isSecondary = false, bool isSelf = false)
     {
         int damage = -1;
         if (moveData == null) moveData = activeData.moveData;
@@ -713,7 +720,7 @@ public class ActiveMove : BattleElement
         }
     }
 
-    void MoveEnd()
+    protected void MoveEnd()
     {
 
         //recoil && totaldamage
