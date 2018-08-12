@@ -80,6 +80,7 @@ public class PokemonCharacter : BattleElement {
     private void Update()
     {
         GetInput();
+        pokemonData.CoolDownManagement();
     }
 
     void FixedUpdate ()
@@ -184,22 +185,35 @@ public class PokemonCharacter : BattleElement {
     }
 
     //Check Input of actions here (move, megaevo, Switch pokemon, use item FROM BAG, ultraburst? zmove?)
-    void RunAction()
+    void RunAction(Globals.ActionType action)
     {
         //Here start cooldown if needed
 
-        //if do a move
-        //set cooldown
-        //RunMove(Move)
+        //Move
+        if(action == Globals.ActionType.Move)
+        {
+            //set cooldown
+            pokemonData.StartActionCoolDown();
+            //RunMove(Move)
+        }
 
-        //if do a switch
-        //set cooldown
-        //SwitchIn(Pokemon)
 
-        //if mega evolve or ultra burst
-        //RunMegaEvo
-        //Callback.OnSetCooldown
+        //Switch
+        else if(action == Globals.ActionType.Switch)
+        {
+            //set cooldown
+            pokemonData.StartActionCoolDown();
+            //SwitchIn(Pokemon)
+        }
+
+
+        //MegaEvolution or Ultra burst
+        else if (action == Globals.ActionType.MegaEvolution || action == Globals.ActionType.UltraBurst)
+        {
+            //RunMegaEvo
+            //Callback.OnSetCooldown
+        }
     }
 
-   
+
 }

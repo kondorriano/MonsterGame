@@ -158,6 +158,16 @@ public class Pokemon {
     public bool inGravity;
     public bool inTrickRoom;
 
+    //Cooldown
+    public int generalTurnCount;
+    public float generalTurnCounter;
+
+    public float abilityTurnCounter;
+
+    public float itemTurnCounter;
+
+    public bool inActionCooldown;
+    public float actionTurnCounter;
 
     public Pokemon(Battle battle, PokemonSet set, Battle.Team team, PokemonCharacter myPokemon)
     {
@@ -295,6 +305,17 @@ public class Pokemon {
         inWonderRoom = false;
         inGravity = false;
         inTrickRoom = false;
+
+        //Cooldown
+        generalTurnCount = 0;
+        generalTurnCounter = battle.turnTime;
+
+        abilityTurnCounter = battle.turnTime;
+
+        itemTurnCounter = battle.turnTime;
+
+        inActionCooldown = false;
+        actionTurnCounter = 0;
     }
 
     public void LogPokemon()
@@ -447,20 +468,23 @@ public class Pokemon {
 
     public AbilityData GetInfoAbility()
     {
-        if (!Abilities.BattleAbilities.ContainsKey(abilityId)) return null;
-        return Abilities.BattleAbilities[abilityId];
+        string ability = Globals.getId(abilityId);
+        if (!Abilities.BattleAbilities.ContainsKey(ability)) return null;
+        return Abilities.BattleAbilities[ability];
     }
 
     public ItemData GetInfoItem()
     {
-        if (!Items.BattleItems.ContainsKey(itemId)) return null;
-        return Items.BattleItems[itemId];
+        string item = Globals.getId(itemId);
+        if (!Items.BattleItems.ContainsKey(item)) return null;
+        return Items.BattleItems[item];
     }
 
     public MoveData GetInfoMove(string moveId)
     {
-        if (!Moves.BattleMovedex.ContainsKey(moveId)) return null;
-        return Moves.BattleMovedex[moveId];
+        string move = Globals.getId(moveId);
+        if (!Moves.BattleMovedex.ContainsKey(move)) return null;
+        return Moves.BattleMovedex[move];
     }
 
     public bool HasType(Globals.Type type)
@@ -1156,8 +1180,128 @@ public class Pokemon {
 
     }
 
-    public void StartCoolDown()
+    public void StartActionCoolDown()
     {
         Debug.LogError("UEEEPALEEE");
+        inActionCooldown = true;
+        actionTurnCounter = battle.turnTime;
+    }
+
+    public void CoolDownManagement()
+    {
+        //General because yes
+        generalTurnCounter -= Time.deltaTime;
+        if (generalTurnCounter <= 0)
+        {
+            ++generalTurnCount;
+            generalTurnCounter += battle.turnTime;
+        }
+
+        //Action turn
+        if (inActionCooldown)
+        {
+            actionTurnCounter -= Time.deltaTime;
+            if (actionTurnCounter <= 0)
+            {
+                inActionCooldown = false;
+            }
+        }
+
+        //Status turn
+        if (statusData != null)
+        {
+            statusData.volatileCounter -= Time.deltaTime;
+            if (statusData.volatileCounter <= 0)
+            {
+
+                statusData.volatileCounter += battle.turnTime;
+                //OnResidual
+                if (statusData.eventMethods.onResidual != null)
+                {
+                    Battle.RelayVar relayVar = new Battle.RelayVar();
+                    statusData.eventMethods.StartCallback("onResidual", battle, relayVar, targetData, null, null);
+                }
+            }
+        }
+
+        List<string> toRemoveVolatiles = new List<string>();
+
+        //Volatiles turn
+        foreach (KeyValuePair<string, Volatile> vol in volatiles)
+        {
+            vol.Value.volatileCounter -= Time.deltaTime;
+            if (vol.Value.volatileCounter <= 0)
+            {
+                vol.Value.volatileCounter += battle.turnTime;
+                //OnResidual
+                if (vol.Value.eventMethods.onResidual != null)
+                {
+                    Battle.RelayVar relayVar = new Battle.RelayVar();
+                    vol.Value.eventMethods.StartCallback("onResidual", battle, relayVar, targetData, null, null);
+                }
+                //Time
+                if(vol.Value.time != -1)
+                {
+                    --vol.Value.time;
+                    if(vol.Value.time == 0)
+                    {
+                        toRemoveVolatiles.Add(vol.Key);
+                    }
+                }
+                //Duration
+                else if (vol.Value.duration != -1)
+                {
+                    --vol.Value.duration;
+                    if (vol.Value.duration == 0)
+                    {
+                        toRemoveVolatiles.Add(vol.Key);
+                    }
+                }                
+            }
+        }
+
+        foreach(string volKey in toRemoveVolatiles)
+        {
+            RemoveVolatile(volKey);
+        }
+
+        if(abilityId != "")
+        {
+            abilityTurnCounter -= Time.deltaTime;
+            if (abilityTurnCounter <= 0)
+            {
+
+                abilityTurnCounter += battle.turnTime;
+                //OnResidual
+                AbilityData ability = GetInfoAbility();
+                if (ability.eventMethods.onResidual != null)
+                {
+                    Battle.RelayVar relayVar = new Battle.RelayVar();
+                    ability.eventMethods.StartCallback("onResidual", battle, relayVar, targetData, null, null);
+                }
+            }
+        }
+
+        if (itemId != "")
+        {
+            itemTurnCounter -= Time.deltaTime;
+            if (itemTurnCounter <= 0)
+            {
+
+                itemTurnCounter += battle.turnTime;
+                //OnResidual
+                ItemData item = GetInfoItem();
+                if (item.eventMethods.onResidual != null)
+                {
+                    Battle.RelayVar relayVar = new Battle.RelayVar();
+                    item.eventMethods.StartCallback("onResidual", battle, relayVar, targetData, null, null);
+                }
+            }
+        }
+
+
+
+
+
     }
 }

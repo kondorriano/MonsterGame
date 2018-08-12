@@ -11,6 +11,13 @@ public class Globals {
         return rgx.Replace(text.ToLower(), "");
     }
 
+    public enum ActionType {
+        Move,
+        Switch,
+        MegaEvolution,
+        UltraBurst
+    }
+
     public class BoostsTable
     {
         public int hp;

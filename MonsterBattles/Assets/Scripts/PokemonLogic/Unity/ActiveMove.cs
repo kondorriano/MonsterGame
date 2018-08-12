@@ -702,7 +702,7 @@ public class ActiveMove : BattleElement
                 //FLONCH
                 if (secondary.volatileStatus != "flinch")
                 {
-                    pokeTarget.StartCoolDown();
+                    pokeTarget.StartActionCoolDown();
                 }
                 else
                 {

@@ -11,6 +11,9 @@ public class Volatile : EffectData
     public List<BattleElement> linkedSources;
     public string linkedStatus;
 
+    //Cooldown
+    public float volatileCounter;
+
     public Volatile(EffectData status)
     {
         /*EventMethods*/
@@ -55,10 +58,11 @@ public class Volatile : EffectData
         linkedSources = new List<BattleElement>();
     }
 
-    public void SetData(TargetableElement target = null, BattleElement source = null, EffectData sourceEffect = null, int duration = -1)
+    public void SetData(TargetableElement target = null, BattleElement source = null, EffectData sourceEffect = null, int turnTime = 0)
     {
         this.target = target;
         this.source = source;
         this.sourceEffect = sourceEffect;
+        this.volatileCounter = turnTime;
     }
 }

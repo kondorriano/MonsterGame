@@ -38,7 +38,7 @@ public class Battle {
         }
     }
 
-    float turnTime = 5;
+    public float turnTime = 4;
 
     Stage stage;
     public Team[] teams;
